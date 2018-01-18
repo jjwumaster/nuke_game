@@ -6,15 +6,33 @@ class MapContainer extends React.Component {
     super()
 
     this.state = {
-      gridsquares: [
-        { name: "square1" },
-        { name: "square2" },
-        { name: "square3" },
-        { name: "square4" }
-      ]
+      gridsquares: []
     }
   }
+
+  componentDidMount() {
+    fetch("http://localhost:3001/grid_squares")
+      .then((resp) => resp.json())
+      .then((gridsquares) => setMap(gridsquares))
+  }
+
+  setMap(gridsquares) {
+    const side = Math.sqrt(gridsquares.length)
+    const range = [...Array(side).keys()]
+    const output = []
+
+    for (let y in range) {
+      output.push([])
+      for (let x in range) {
+        gridsquares.x_coord === x + 1 && gridsquares.y_coord === y + 1
+      }
+    }
+
+    this.setState({ gridsquares: output })
+  }
+
   render() {
+    console.log(this.state)
     return (
       <table>
         <tbody>
