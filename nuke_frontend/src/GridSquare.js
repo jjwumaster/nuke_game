@@ -33,9 +33,7 @@ const GridSquare = props => {
         style={style}
         onClick={() => props.handleClick(cell)}
         className="gridsquare"
-      >
-        {cell.pop}
-      </td>
+      />
     );
   });
 };

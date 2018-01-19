@@ -24,6 +24,7 @@ class StartScreen extends React.Component {
       });
 
       this.setHidingSpot(parseInt(cell.id));
+      alert("glorious hiding spot");
       this.props.history.push("/play");
     }
   };

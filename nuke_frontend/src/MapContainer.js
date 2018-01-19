@@ -20,8 +20,12 @@ class MapContainer extends React.Component {
 
   handleClick = cell => {
     let gridsquareId = cell.id;
-
     let flipper = cell.shot === true ? false : true;
+
+    if (cell.has_player === true) {
+      alert("END GAME");
+      // reset the database and bring everyone back to the homescreen
+    }
 
     fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
       method: "PATCH",
@@ -33,32 +37,30 @@ class MapContainer extends React.Component {
     })
       .then(resp => resp.json())
       .then(gridsquare => this.props.updateGridsquare(gridsquare));
+
+    this.nextTurn();
   };
 
-  // updateGridsquare(gridsquare) {
-  //   const rowIndex = gridsquare.y_coord - 1;
-  //   const columnIndex = gridsquare.x_coord - 1;
-  //
-  //   let localGridsquares = props.gridsquares;
-  //   localGridsquares[rowIndex][columnIndex].shot =
-  //     localGridsquares[rowIndex][columnIndex].shot === true ? false : true;
-  //
-  //   this.setState({ gridsquares: localGridsquares });
-  // }
+  nextTurn = () => {
+    let nextState = this.state.activePlayer === 1 ? 2 : 1;
+    this.setState({
+      activePlayer: nextState
+    });
+  };
 
   render() {
+    console.log(this.state.activePlayer);
+
     return (
-      <div>
-        <table>
-          <tbody>
-            <MapGrid
-              gridsquares={this.props.gridsquares}
-              handleClick={this.handleClick}
-              activePlayer={this.state.activePlayer}
-            />
-          </tbody>
-        </table>
-      </div>
+      <table>
+        <tbody>
+          <MapGrid
+            gridsquares={this.props.gridsquares}
+            handleClick={this.handleClick}
+            activePlayer={this.state.activePlayer}
+          />
+        </tbody>
+      </table>
     );
   }
 }
