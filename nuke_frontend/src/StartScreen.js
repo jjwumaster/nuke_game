@@ -1,11 +1,11 @@
 import React from "react"
 
 class StartScreen extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
-      activePlayer: 2
+      activePlayer: 1
     }
   }
 

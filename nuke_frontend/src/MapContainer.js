@@ -2,36 +2,12 @@ import React from "react"
 import MapGrid from "./MapGrid"
 
 class MapContainer extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
-      gridsquares: [],
       activePlayer: 1
     }
-  }
-
-  componentDidMount() {
-    fetch("http://localhost:3001/grid_squares")
-      .then((resp) => resp.json())
-      .then((gridsquares) => this.setMap(gridsquares))
-  }
-
-  setMap(gridsquares) {
-    const side = Math.sqrt(gridsquares.length)
-    const range = [...Array(side).keys()]
-    const output = []
-
-    for (let y of range) {
-      output.push([])
-      for (let square in gridsquares) {
-        if (gridsquares[square].y_coord === y + 1) {
-          output[y].push(gridsquares[square])
-        }
-      }
-    }
-
-    this.setState({ gridsquares: output })
   }
 
   handleClick = (cell) => {
