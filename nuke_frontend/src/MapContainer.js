@@ -46,13 +46,15 @@ class MapContainer extends React.Component {
       .then((resp) => resp.json())
       .then((gridsquare) => this.updateGridsquare(gridsquare))
   }
-  //
-  // updateGridsquare(gridsquare) {
-  //   const rowIndex = gridsquare.y_coord - 1
-  //   const columnIndex = gridsquare.x_coord - 1
-  //
-  //   console.log(this.state.gridsquares[rowIndex][columnIndex])
-  // }
+
+  updateGridsquare(gridsquare) {
+    const rowIndex = gridsquare.y_coord - 1
+    const columnIndex = gridsquare.x_coord - 1
+    const replace = this.state.gridsquares[rowIndex][columnIndex]
+
+    this.state.gridsquares[rowIndex].splice(columnIndex, 1)
+    this.setState({ gridsquares: [...this.state.gridsquares] })
+  }
 
   render() {
     return (

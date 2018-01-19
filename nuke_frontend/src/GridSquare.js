@@ -4,7 +4,7 @@ const GridSquare = (props) => {
   return props.row.map((cell) => {
     return (
       <td key={`cell-${cell.id}`} onClick={() => props.handleClick(cell)}>
-        {cell.id}
+        {cell.x_coord}, {cell.y_coord}
       </td>
     )
   })
