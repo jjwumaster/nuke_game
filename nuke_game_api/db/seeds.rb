@@ -12,6 +12,7 @@ Weapon.destroy_all
 
 #  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
 
+=begin
 map_array = [
   [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w], # 1
   [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w], # 2
@@ -64,6 +65,7 @@ map_array = [
   [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],
   [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w] # 50
 ]
+=end
 
 def populate_grid(x, y)
   (1..x).each do |x_coord|
@@ -80,7 +82,7 @@ def populate_grid(x, y)
   end
 end
 
-populate_grid(50, 50)
+populate_grid(25, 25)
 
 Player.create(name: "Erica", x_coord: 1, y_coord: 2)
 Player.create(name: "Jon", x_coord: 2, y_coord: 1)
