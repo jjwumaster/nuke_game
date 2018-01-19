@@ -6,7 +6,8 @@ class MapContainer extends React.Component {
     super()
 
     this.state = {
-      gridsquares: []
+      gridsquares: [],
+      activePlayer: 1
     }
   }
 
@@ -35,6 +36,7 @@ class MapContainer extends React.Component {
 
   handleClick = (cell) => {
     let gridsquareId = cell.id
+
     fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
       method: "PATCH",
       headers: {
@@ -45,7 +47,33 @@ class MapContainer extends React.Component {
     })
       .then((resp) => resp.json())
       .then((gridsquare) => this.updateGridsquare(gridsquare))
+
+    // changeTurn()
   }
+  //
+  // changeTurn = () => {
+  //   let playerId = this.state.activePlayer
+  //
+  //   fetch(`http://localhost:3001/players/${playerId}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json"
+  //     },
+  //     body: JSON.stringify({ turn: false })
+  //   })
+  //
+  //   fetch(`http://localhost:3001/players/${otherPlayerId}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json"
+  //     },
+  //     body: JSON.stringify({ turn: true })
+  //   })
+  //
+  //   this.setState({ activePlayer: otherPlayerId })
+  // }
 
   updateGridsquare(gridsquare) {
     const rowIndex = gridsquare.y_coord - 1
@@ -59,7 +87,6 @@ class MapContainer extends React.Component {
   render() {
     return (
       <div>
-        <h1> Hi </h1>
         <table>
           <tbody>
             <MapGrid
