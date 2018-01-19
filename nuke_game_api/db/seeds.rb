@@ -26,3 +26,6 @@ def populate_grid(x, y)
 end
 
 populate_grid(2, 2)
+
+Player.create(name: "Erica", x_coord: 1, y_coord: 2)
+Player.create(name: "Jon", x_coord: 2, y_coord: 1)

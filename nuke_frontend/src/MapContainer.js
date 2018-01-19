@@ -61,12 +61,13 @@ class MapContainer extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <table>
           <tbody>
             <MapGrid
-              gridsquares={this.state.gridsquares}
+              gridsquares={this.props.gridsquares}
               handleClick={this.handleClick}
             />
           </tbody>

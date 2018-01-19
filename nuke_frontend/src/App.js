@@ -17,7 +17,7 @@ class App extends React.Component {
       .then((gridsquares) => this.setMap(gridsquares))
   }
 
-  setMap(gridsquares) {
+  setMap = (gridsquares) => {
     const side = Math.sqrt(gridsquares.length)
     const range = [...Array(side).keys()]
     const output = []
@@ -30,16 +30,24 @@ class App extends React.Component {
         }
       }
     }
-
     this.setState({ gridsquares: output })
   }
 
   render() {
+    console.log(this.state.gridsquares)
     return (
       <Router>
         <div>
-          <Route exact path="/" component={StartScreen} />
-          <Route exact path="/play" component={MapContainer} />
+          <Route
+            exact
+            path="/"
+            render={() => <StartScreen gridsquares={this.state.gridsquares} />}
+          />
+          <Route
+            exact
+            path="/play"
+            render={() => <MapContainer gridsquares={this.state.gridsquares} />}
+          />
         </div>
       </Router>
     )

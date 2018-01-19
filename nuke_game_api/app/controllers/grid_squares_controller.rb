@@ -11,7 +11,9 @@ class GridSquaresController < ApplicationController
     render json: @grid_square, status: 200
   end
 
-  def grid_square_params # change to explicitly allow certain arguments
+  private
+
+  def grid_square_params
     params.require(:grid_square).permit(:shot)
   end
 

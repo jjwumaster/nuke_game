@@ -1,4 +1,5 @@
 import React from "react"
+import MapGrid from "./MapGrid"
 
 class StartScreen extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class StartScreen extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <input type="text" placeholder={"Name"} />
           <h2>Select Starting Position: </h2>
+          <MapGrid gridsquares={this.props.gridsquares} />
           <button>Submit</button>
         </form>
       </div>
