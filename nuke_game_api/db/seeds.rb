@@ -69,14 +69,25 @@ map_array = [
 
 def populate_grid(x, y)
   (1..x).each do |x_coord|
-    (1..y).each do |y_coord|
+    (1..12).each do |y_coord|
+      GridSquare.create({
+        x_coord: x_coord,
+        y_coord: y_coord,
+        pop: 0,
+        shot: false,
+        land: false,
+        country: "China"
+        })
+    end
+
+    (13..25).each do |y_coord|
       GridSquare.create({
         x_coord: x_coord,
         y_coord: y_coord,
         pop: 0,
         shot: false,
         land: true,
-        country: "China"
+        country: "North Korea"
         })
     end
   end

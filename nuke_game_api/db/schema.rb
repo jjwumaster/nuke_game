@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119153022) do
+ActiveRecord::Schema.define(version: 20180118145849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20180119153022) do
     t.boolean "shot"
     t.boolean "land"
     t.string "country"
+    t.boolean "has_player", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -32,7 +33,6 @@ ActiveRecord::Schema.define(version: 20180119153022) do
     t.integer "y_coord"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "turn", default: false
   end
 
   create_table "weapons", force: :cascade do |t|

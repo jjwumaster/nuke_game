@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import StartScreen from "./StartScreen";
 import MapContainer from "./MapContainer";
 
@@ -43,24 +43,40 @@ class App extends React.Component {
     this.setState({ gridsquares: output });
   };
 
+  updateGridsquare = gridsquare => {
+    const rowIndex = gridsquare.y_coord - 1;
+    const columnIndex = gridsquare.x_coord - 1;
+
+    let localGridsquares = this.state.gridsquares;
+    localGridsquares[rowIndex][columnIndex].shot =
+      localGridsquares[rowIndex][columnIndex].shot === true ? false : true;
+
+    this.setState({ gridsquares: localGridsquares });
+  };
+
   render() {
     return (
-      <Router>
-        <div>
-          <Route
-            exact
-            path="/"
-            render={() => <StartScreen gridsquares={this.state.gridsquares} />}
-          />
-          <Route
-            exact
-            path="/play"
-            render={() => <MapContainer gridsquares={this.state.gridsquares} />}
-          />
-        </div>
-      </Router>
+      <div>
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <StartScreen gridsquares={this.state.gridsquares} {...this.props} />
+          )}
+        />
+        <Route
+          exact
+          path="/play"
+          render={() => (
+            <MapContainer
+              gridsquares={this.state.gridsquares}
+              updateGridsquare={this.updateGridsquare}
+            />
+          )}
+        />
+      </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

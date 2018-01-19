@@ -14,7 +14,7 @@ class GridSquaresController < ApplicationController
   private
 
   def grid_square_params
-    params.require(:grid_square).permit(:shot)
+    params.require(:grid_square).permit(:shot, :has_player)
   end
 
 end
