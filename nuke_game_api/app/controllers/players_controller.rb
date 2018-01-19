@@ -5,6 +5,11 @@ class PlayersController < ApplicationController
     render json: @players, status: 200
   end
 
+  def create
+    @player = Player.create(player_params)
+    render json: @player, status: 200
+  end
+
   def update
     @player = Player.find(params[:id])
     @player.update(player_params)
@@ -14,7 +19,7 @@ class PlayersController < ApplicationController
   private
 
   def player_params
-    params.require(:player).permit(:name, :turn, :x_coord, :y_coord)
+    params.require(:player).permit(:x_coord, :y_coord)
   end
 
 end

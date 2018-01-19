@@ -4,32 +4,32 @@ import MapGrid from "./MapGrid"
 class StartScreen extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      activePlayer: 1
-    }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(e)
+  onClickStart = (cell) => {
+    const xCoord = cell.x_coord
+    const yCoord = cell.y_coord
+    fetch(`http://localhost:3001/players`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ x_coord: xCoord, y_coord: yCoord })
+    })
+      .then((resp) => resp.json())
+      .then((player) => console.log(player))
   }
 
   render() {
     return (
       <div>
         <h1>Nuke Game</h1>
-        {this.state.activePlayer === 1 ? (
-          <h2>Player 1: </h2>
-        ) : (
-          <h2>Player 2: </h2>
-        )}
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder={"Name"} />
-          <h2>Select Starting Position: </h2>
-          <MapGrid gridsquares={this.props.gridsquares} />
-          <button>Submit</button>
-        </form>
+        <h2>North Korea, Select Your Hiding Position</h2>
+        <MapGrid
+          gridsquares={this.props.gridsquares}
+          handleClick={this.onClickStart}
+        />
       </div>
     )
   }

@@ -7,6 +7,7 @@ class CreateGridSquares < ActiveRecord::Migration[5.1]
       t.boolean :shot
       t.boolean :land
       t.string :country
+      t.boolean :has_player, :default => false
 
       t.timestamps
     end
