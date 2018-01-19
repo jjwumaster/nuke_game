@@ -34,6 +34,7 @@ class App extends React.Component {
   }
 
   render() {
+<<<<<<< HEAD
     console.log(this.state.gridsquares)
     return (
       <Router>
@@ -51,7 +52,15 @@ class App extends React.Component {
         </div>
       </Router>
     )
+=======
+    return (
+      <div>
+        <Editor />
+        <MapContainer />
+      </div>
+    );
+>>>>>>> jon
   }
 }
 
-export default App
+export default App;
