@@ -1,16 +1,15 @@
-import React from "react"
-import GridSquare from "./GridSquare"
+import React from "react";
+import GridSquare from "./GridSquare";
+import styles from "./style/MapGrid.css";
 
-const MapGrid = (props) => {
-  console.log(props.gridsquares)
-
+const MapGrid = props => {
   return props.gridsquares.map((row, i) => {
     return (
       <tr key={`row-${i}`}>
         <GridSquare handleClick={props.handleClick} row={row} />
       </tr>
-    )
-  })
-}
+    );
+  });
+};
 
-export default MapGrid
+export default MapGrid;
