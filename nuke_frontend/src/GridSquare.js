@@ -21,6 +21,12 @@ const GridSquare = props => {
       low: "#66ff66",
       zero: "#99ff99"
     },
+    Japan: {
+      high: "#009933",
+      medium: "#33cc33",
+      low: "#66ff66",
+      zero: "#99ff99"
+    },
     China: {
       high: "#ff5050",
       medium: "#ff6666",

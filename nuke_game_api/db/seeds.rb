@@ -22,8 +22,6 @@ m = "medium"
 l = "low"
 z = "zero"
 
-
-
 def populate_grid_from_map(land_map)
 
   country_ref = {
@@ -31,6 +29,7 @@ def populate_grid_from_map(land_map)
   "s" => "South Korea",
   "c" => "China",
   "r" => "Russia",
+  "j" => "Japan",
   "." => "Water"
   }
 
