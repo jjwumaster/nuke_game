@@ -3,6 +3,7 @@ import { Route, withRouter } from "react-router-dom";
 import StartScreen from "./StartScreen";
 import MapContainer from "./MapContainer";
 import ControlPanel from "./ControlPanel";
+import EndScreen from "./EndScreen";
 import "./style/App.css";
 
 class App extends React.Component {
@@ -99,6 +100,7 @@ class App extends React.Component {
                   gridsquares={this.state.gridsquares}
                   updateGridsquare={this.updateGridsquare}
                   activePlayer={this.state.activePlayer}
+                  {...this.props}
                 />
               </div>
               <div className="control-panel">
@@ -110,6 +112,7 @@ class App extends React.Component {
             </div>
           )}
         />
+        <Route exact path="/end" component={EndScreen} {...this.props} />
       </div>
     );
   }

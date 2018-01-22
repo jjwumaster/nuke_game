@@ -2,6 +2,11 @@ import React from "react";
 import MapGrid from "./MapGrid";
 import "./style/MapContainer.css";
 
+const HEADERS = {
+  "Content-Type": "application/json",
+  Accept: "application/json"
+};
+
 class MapContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -22,23 +27,27 @@ class MapContainer extends React.Component {
     let gridsquareId = cell.id;
     let flipper = cell.shot === true ? false : true;
 
-    if (cell.has_player === true) {
+    if (cell.has_player === true && this.state.activePlayer === 2) {
       alert("END GAME");
-      // reset the database and bring everyone back to the homescreen
+
+      this.endGame();
+    }
+
+    if (cell.has_player === true && this.state.activePlayer === 1) {
+      alert("You idiot!");
+
+      this.endGame();
     }
 
     fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
+      headers: HEADERS,
       body: JSON.stringify({ shot: flipper })
     })
       .then(resp => resp.json())
       .then(gridsquare => this.props.updateGridsquare(gridsquare));
 
-    this.props.nextTurn();
+    this.nextTurn();
   };
 
   nextTurn = () => {
