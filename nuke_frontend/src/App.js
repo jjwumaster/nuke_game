@@ -2,19 +2,34 @@ import React from "react";
 import { Route, withRouter } from "react-router-dom";
 import StartScreen from "./StartScreen";
 import MapContainer from "./MapContainer";
+import ControlPanel from "./ControlPanel";
+import "./style/App.css";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      gridsquares: []
+      gridsquares: [],
+      players: [],
+      activePlayer: 1
     };
   }
 
   componentDidMount() {
+    this.fetchGridSquares();
+    this.fetchPlayers();
+  }
+
+  fetchGridSquares() {
     fetch("http://localhost:3001/grid_squares")
       .then(resp => resp.json())
       .then(gridsquares => this.setMap(gridsquares));
+  }
+
+  fetchPlayers() {
+    fetch("http://localhost:3001/players")
+      .then(resp => resp.json())
+      .then(players => this.setState({ players: players }));
   }
 
   setMap = gridsquares => {
@@ -54,6 +69,13 @@ class App extends React.Component {
     this.setState({ gridsquares: localGridsquares });
   };
 
+  nextTurn = () => {
+    let nextState = this.state.activePlayer === 1 ? 2 : 1;
+    this.setState({
+      activePlayer: nextState
+    });
+  };
+
   render() {
     return (
       <div>
@@ -68,10 +90,24 @@ class App extends React.Component {
           exact
           path="/play"
           render={() => (
-            <MapContainer
-              gridsquares={this.state.gridsquares}
-              updateGridsquare={this.updateGridsquare}
-            />
+            <div className="wrapper">
+              <div className="header">Welcome to the nuke game</div>
+              <div className="map-header">Map Header</div>
+              <div className="control-header"> Control Header</div>
+              <div className="map-container">
+                <MapContainer
+                  gridsquares={this.state.gridsquares}
+                  updateGridsquare={this.updateGridsquare}
+                  activePlayer={this.state.activePlayer}
+                />
+              </div>
+              <div className="control-panel">
+                <ControlPanel
+                  activePlayer={this.state.activePlayer}
+                  nextTurn={this.nextTurn}
+                />
+              </div>
+            </div>
           )}
         />
       </div>

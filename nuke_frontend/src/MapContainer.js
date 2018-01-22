@@ -38,7 +38,7 @@ class MapContainer extends React.Component {
       .then(resp => resp.json())
       .then(gridsquare => this.props.updateGridsquare(gridsquare));
 
-    this.nextTurn();
+    this.props.nextTurn();
   };
 
   nextTurn = () => {
@@ -49,15 +49,13 @@ class MapContainer extends React.Component {
   };
 
   render() {
-    console.log(this.state.activePlayer);
-
     return (
       <table>
         <tbody>
           <MapGrid
             gridsquares={this.props.gridsquares}
             handleClick={this.handleClick}
-            activePlayer={this.state.activePlayer}
+            activePlayer={this.props.activePlayer}
           />
         </tbody>
       </table>

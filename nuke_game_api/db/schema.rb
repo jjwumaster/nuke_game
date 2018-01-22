@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119214508) do
+ActiveRecord::Schema.define(version: 20180122193013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 20180119214508) do
     t.integer "y_coord"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
+    t.integer "player_number"
   end
 
   create_table "weapons", force: :cascade do |t|
@@ -41,9 +43,11 @@ ActiveRecord::Schema.define(version: 20180119214508) do
     t.integer "x_dim"
     t.integer "y_dim"
     t.string "name"
-    t.integer "shots_remaining"
+    t.integer "shots"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "success_rate"
+    t.string "description"
     t.index ["player_id"], name: "index_weapons_on_player_id"
   end
 
