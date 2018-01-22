@@ -59,6 +59,7 @@ const GridSquare = props => {
         style={style}
         onClick={() => props.handleClick(cell)}
         className="gridsquare"
+        id={`cell-${cell.x_coord}-${cell.y_coord}`}
       />
     );
   });
