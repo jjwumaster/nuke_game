@@ -1,0 +1,36 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  grid-template-rows: 50px 100px repeat(3, 1fr);
+  grid-template-areas:
+    "h  h  h  h"
+    "mh mh ch ch"
+    "mc mc cp cp"
+    "mc mc cp cp"
+    "mc mc cp cp";
+}
+
+.map-container {
+  grid-area: mc;
+}
+
+.control-panel {
+  grid-area: cp;
+  background-color: red;
+}
+
+.map-header {
+  grid-area: mh;
+  background-color: green;
+}
+
+.control-header {
+  grid-area: ch;
+  background-color: gray;
+}
+
+.header {
+  grid-area: h;
+  background-color: teal;
+}
