@@ -1,56 +1,71 @@
-import React from "react";
-import MapGrid from "./MapGrid";
-import "./style/MapContainer.css";
+import React from "react"
+import MapGrid from "./MapGrid"
+import "./style/MapContainer.css"
+
+const HEADERS = {
+  "Content-Type": "application/json",
+  Accept: "application/json"
+}
 
 class MapContainer extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       players: [],
       activePlayer: 1
-    };
+    }
   }
 
   componentDidMount() {
     fetch(`http://localhost:3001/players`)
-      .then(resp => resp.json())
-      .then(players => this.setState({ players: players }));
+      .then((resp) => resp.json())
+      .then((players) => this.setState({ players: players }))
   }
 
-  handleClick = cell => {
-    let gridsquareId = cell.id;
-    let flipper = cell.shot === true ? false : true;
+  handleClick = (cell) => {
+    let gridsquareId = cell.id
+    let flipper = cell.shot === true ? false : true
 
-    if (cell.has_player === true) {
-      alert("END GAME");
-      // reset the database and bring everyone back to the homescreen
+    if (cell.has_player === true && this.state.activePlayer === 2) {
+      alert("END GAME")
+
+      this.endGame()
+    }
+
+    if (cell.has_player === true && this.state.activePlayer === 1) {
+      alert("You idiot!")
+
+      this.endGame()
     }
 
     fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
+      headers: HEADERS,
       body: JSON.stringify({ shot: flipper })
     })
-      .then(resp => resp.json())
-      .then(gridsquare => this.props.updateGridsquare(gridsquare));
+      .then((resp) => resp.json())
+      .then((gridsquare) => this.props.updateGridsquare(gridsquare))
 
-    this.nextTurn();
-  };
+    this.nextTurn()
+  }
 
   nextTurn = () => {
-    let nextState = this.state.activePlayer === 1 ? 2 : 1;
+    let nextState = this.state.activePlayer === 1 ? 2 : 1
     this.setState({
       activePlayer: nextState
-    });
-  };
+    })
+  }
+
+  endGame = () => {
+    fetch(`http://localhost:3001/end/`, {
+      method: "PATCH"
+    })
+
+    this.props.history.push("/end")
+  }
 
   render() {
-    console.log(this.state.activePlayer);
-
     return (
       <table>
         <tbody>
@@ -61,8 +76,8 @@ class MapContainer extends React.Component {
           />
         </tbody>
       </table>
-    );
+    )
   }
 }
 
-export default MapContainer;
+export default MapContainer

@@ -11,6 +11,15 @@ class GridSquaresController < ApplicationController
     render json: @grid_square, status: 200
   end
 
+  def end_game
+    @grid_squares = GridSquare.where(shot: true).or(GridSquare.where(has_player: true))
+    @grid_squares.each do |gridsquare|
+      gridsquare.update({shot: false, has_player: false})
+    end
+
+    ActiveRecord::Base.connection.execute("TRUNCATE Players CASCADE")
+  end
+
   private
 
   def grid_square_params

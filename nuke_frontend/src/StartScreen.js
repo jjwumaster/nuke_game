@@ -1,35 +1,36 @@
-import React from "react";
-import MapGrid from "./MapGrid";
-import "./style/StartScreen.css";
+import React from "react"
+import MapGrid from "./MapGrid"
+import "./style/StartScreen.css"
 
 const HEADERS = {
   "Content-Type": "application/json",
   Accept: "application/json"
-};
+}
 
 class StartScreen extends React.Component {
-  onClickStart = cell => {
-    const xCoord = cell.x_coord;
-    const yCoord = cell.y_coord;
+  onClickStart = (cell) => {
+    const xCoord = cell.x_coord
+    const yCoord = cell.y_coord
 
     if (!cell.land) {
-      alert("부끄러운 지도자 ... this is water");
+      alert("부끄러운 지도자 ... this is water")
     } else if (cell.country !== "North Korea") {
-      alert("이건 조국이 아니야 ... this is not the motherland!");
+      alert("이건 조국이 아니야 ... this is not the motherland!")
     } else {
       fetch(`http://localhost:3001/players`, {
         method: "POST",
         headers: HEADERS,
         body: JSON.stringify({ x_coord: xCoord, y_coord: yCoord })
-      });
+      })
 
-      this.setHidingSpot(parseInt(cell.id));
-      alert("glorious hiding spot");
-      this.props.history.push("/play");
+      this.setHidingSpot(parseInt(cell.id))
+      alert("glorious hiding spot")
+      this.props.history.push("/play")
+      window.location.reload() //edit this to change the state of gridsquare
     }
-  };
+  }
 
-  setHidingSpot = id => {
+  setHidingSpot = (id) => {
     fetch(`http://localhost:3001/grid_squares/${id}`, {
       method: "PATCH",
       headers: HEADERS,
@@ -38,8 +39,8 @@ class StartScreen extends React.Component {
           has_player: true
         }
       })
-    });
-  };
+    })
+  }
 
   createSecondPlayer = () => {
     fetch(`http://localhost:3001/players`, {
@@ -48,8 +49,8 @@ class StartScreen extends React.Component {
       body: JSON.stringify({
         name: "Player 2"
       })
-    });
-  };
+    })
+  }
 
   render() {
     return (
@@ -68,7 +69,7 @@ class StartScreen extends React.Component {
           </tbody>
         </table>
       </div>
-    );
+    )
   }
 }
-export default StartScreen;
+export default StartScreen
