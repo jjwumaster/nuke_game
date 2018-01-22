@@ -5,9 +5,19 @@ import CurrentWeapon from "./CurrentWeapon";
 const ControlPanel = props => {
   return (
     <div>
-      <h1>Player {props.activePlayer} turn</h1>
-      <WeaponSelector />
-      <CurrentWeapon />
+      {props.location.pathname === "/end" ? (
+        <div>
+          <img alt="" src="https://i.imgflip.com/kduan.jpg" />
+          <br />
+          <button onClick={this.handleClick}>New Game</button>
+        </div>
+      ) : (
+        <div>
+          <h1>Player {props.activePlayer} turn</h1>
+          <WeaponSelector />
+          <CurrentWeapon />
+        </div>
+      )}
     </div>
   );
 };

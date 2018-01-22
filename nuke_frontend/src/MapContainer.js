@@ -10,11 +10,6 @@ const HEADERS = {
 class MapContainer extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      players: [],
-      activePlayer: 1
-    };
   }
 
   componentDidMount() {
@@ -27,16 +22,18 @@ class MapContainer extends React.Component {
     let gridsquareId = cell.id;
     let flipper = cell.shot === true ? false : true;
 
-    if (cell.has_player === true && this.state.activePlayer === 2) {
+    if (cell.has_player === true && this.props.activePlayer === 2) {
       alert("END GAME");
 
       this.endGame();
-    }
-
-    if (cell.has_player === true && this.state.activePlayer === 1) {
+    } else if (cell.has_player === true && this.props.activePlayer === 1) {
       alert("You idiot!");
 
       this.endGame();
+    } else {
+      let activePlayerName =
+        this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
+      alert(`Successful bombing run! ${activePlayerName}'s turn!`);
     }
 
     fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
@@ -47,14 +44,47 @@ class MapContainer extends React.Component {
       .then(resp => resp.json())
       .then(gridsquare => this.props.updateGridsquare(gridsquare));
 
-    this.nextTurn();
+    this.props.nextTurn();
   };
 
-  nextTurn = () => {
-    let nextState = this.state.activePlayer === 1 ? 2 : 1;
-    this.setState({
-      activePlayer: nextState
+  endGame = () => {
+    fetch("http://localhost:3001/end/", {
+      method: "PATCH"
     });
+    this.props.history.push("/end"); // AND change parent state
+  };
+
+  onClickStart = cell => {
+    const xCoord = cell.x_coord;
+    const yCoord = cell.y_coord;
+
+    if (!cell.land) {
+      alert("부끄러운 지도자 ... this is water");
+    } else if (cell.country !== "North Korea") {
+      alert("이건 조국이 아니야 ... this is not the motherland!");
+    } else {
+      fetch(`http://localhost:3001/players`, {
+        method: "POST",
+        headers: HEADERS,
+        body: JSON.stringify({ x_coord: xCoord, y_coord: yCoord })
+      });
+
+      this.setHidingSpot(parseInt(cell.id));
+      alert("glorious hiding spot");
+    }
+  };
+
+  setHidingSpot = id => {
+    fetch(`http://localhost:3001/grid_squares/${id}`, {
+      method: "PATCH",
+      headers: HEADERS,
+      body: JSON.stringify({
+        grid_square: {
+          has_player: true
+        }
+      })
+    });
+    this.props.startGame();
   };
 
   render() {
@@ -63,7 +93,9 @@ class MapContainer extends React.Component {
         <tbody>
           <MapGrid
             gridsquares={this.props.gridsquares}
-            handleClick={this.handleClick}
+            handleClick={
+              this.props.startScreen ? this.onClickStart : this.handleClick
+            }
             activePlayer={this.props.activePlayer}
           />
         </tbody>

@@ -1,9 +1,7 @@
 import React from "react";
 import { Route, withRouter } from "react-router-dom";
-import StartScreen from "./StartScreen";
 import MapContainer from "./MapContainer";
 import ControlPanel from "./ControlPanel";
-import EndScreen from "./EndScreen";
 import "./style/App.css";
 
 class App extends React.Component {
@@ -12,7 +10,8 @@ class App extends React.Component {
     this.state = {
       gridsquares: [],
       players: [],
-      activePlayer: 1
+      activePlayer: 1,
+      startScreen: true
     };
   }
 
@@ -70,6 +69,13 @@ class App extends React.Component {
     this.setState({ gridsquares: localGridsquares });
   };
 
+  startGame = () => {
+    this.setState({
+      startScreen: false
+    });
+    this.nextTurn(); // do we want P1 or P2 to start the game?
+  };
+
   nextTurn = () => {
     let nextState = this.state.activePlayer === 1 ? 2 : 1;
     this.setState({
@@ -81,15 +87,7 @@ class App extends React.Component {
     return (
       <div>
         <Route
-          exact
           path="/"
-          render={() => (
-            <StartScreen gridsquares={this.state.gridsquares} {...this.props} />
-          )}
-        />
-        <Route
-          exact
-          path="/play"
           render={() => (
             <div className="wrapper">
               <div className="header">Welcome to the nuke game</div>
@@ -100,6 +98,9 @@ class App extends React.Component {
                   gridsquares={this.state.gridsquares}
                   updateGridsquare={this.updateGridsquare}
                   activePlayer={this.state.activePlayer}
+                  startScreen={this.state.startScreen}
+                  startGame={this.startGame}
+                  nextTurn={this.nextTurn}
                   {...this.props}
                 />
               </div>
@@ -107,12 +108,12 @@ class App extends React.Component {
                 <ControlPanel
                   activePlayer={this.state.activePlayer}
                   nextTurn={this.nextTurn}
+                  {...this.props}
                 />
               </div>
             </div>
           )}
         />
-        <Route exact path="/end" component={EndScreen} {...this.props} />
       </div>
     );
   }
