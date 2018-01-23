@@ -111,7 +111,7 @@ def populate_grid_from_map(land_map)
     row_string = row.split("") # this is a row that's a string
     row_string.each_with_index do |letter, x|
       country = country_ref[letter][0]
-      pop = countr_ref[letter][1]
+      pop = country_ref[letter][1]
 
       land = letter == "." ? false : true
       GridSquare.create({

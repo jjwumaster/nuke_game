@@ -9,6 +9,7 @@ class App extends React.Component {
     super();
     this.state = {
       gridsquares: [],
+      players: [],
       activePlayer: 1,
       startScreen: true
     };
@@ -34,7 +35,7 @@ class App extends React.Component {
   setMap = gridsquares => {
     // const side = Math.sqrt(gridsquares.length);
     const width = 50;
-    const length = 95;
+    const length = 85;
     const range = [...Array(length).keys()];
     const output = [];
 
