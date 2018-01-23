@@ -17,12 +17,14 @@ const WeaponSelector = (props) => {
       <div>
         <h3>Weapon Selection</h3>
         {weaponsList}
-        {props.activeWeapon ? (
+        {Object.keys(props.activeWeapon).length === 0 ? (
+          <div />
+        ) : (
           <div>
             <h3>Active Weapon</h3>
             <CurrentWeapon activeWeapon={props.activeWeapon} />
           </div>
-        ) : null}
+        )}
       </div>
     )
   } else {

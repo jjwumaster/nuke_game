@@ -7,11 +7,13 @@ import "./style/App.css"
 class App extends React.Component {
   constructor() {
     super()
+
     this.state = {
       gridsquares: [],
       players: [],
       activePlayer: 1,
-      startScreen: true
+      startScreen: true,
+      activeWeapon: {}
     }
   }
 
@@ -86,10 +88,11 @@ class App extends React.Component {
     this.nextTurn()
   }
 
-  endGame = () => {
+  resetGame = () => {
     this.setState({
       startScreen: true,
-      activePlayer: 1
+      activePlayer: 1,
+      activeWeapon: {}
     })
     this.fetchGridSquares()
     this.fetchPlayers()
@@ -98,8 +101,14 @@ class App extends React.Component {
   nextTurn = () => {
     let nextState = this.state.activePlayer === 1 ? 2 : 1
     this.setState({
-      activePlayer: nextState
+      activePlayer: nextState,
+      activeWeapon: {}
     })
+    this.fetchPlayers()
+  }
+
+  handleSelection = (weapon) => {
+    this.setState({ activeWeapon: weapon })
   }
 
   render() {
@@ -121,6 +130,7 @@ class App extends React.Component {
                   startScreen={this.state.startScreen}
                   startGame={this.startGame}
                   nextTurn={this.nextTurn}
+                  activeWeapon={this.state.activeWeapon}
                   {...this.props}
                 />
               </div>
@@ -129,7 +139,9 @@ class App extends React.Component {
                   players={this.state.players}
                   activePlayer={this.state.activePlayer}
                   nextTurn={this.nextTurn}
-                  endGame={this.endGame}
+                  resetGame={this.resetGame}
+                  activeWeapon={this.state.activeWeapon}
+                  handleSelection={this.handleSelection}
                   {...this.props}
                 />
               </div>
