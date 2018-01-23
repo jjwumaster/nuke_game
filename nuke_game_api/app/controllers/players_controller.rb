@@ -19,7 +19,7 @@ class PlayersController < ApplicationController
   private
 
   def player_params
-    params.require(:player).permit(:x_coord, :y_coord)
+    params.require(:player).permit(:x_coord, :y_coord, :player_number)
   end
 
 end

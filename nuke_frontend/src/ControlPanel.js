@@ -14,7 +14,10 @@ const ControlPanel = props => {
       ) : (
         <div>
           <h1>Player {props.activePlayer} turn</h1>
-          <WeaponSelector />
+          <WeaponSelector
+            players={props.players}
+            activePlayer={props.activePlayer}
+          />
           <CurrentWeapon />
         </div>
       )}

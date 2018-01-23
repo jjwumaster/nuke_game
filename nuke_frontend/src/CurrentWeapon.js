@@ -1,5 +1,5 @@
 import React from "react";
 
-const CurrentWeapon = () => <div>CURRENT WEAPON</div>;
+const CurrentWeapon = props => <div />;
 
 export default CurrentWeapon;

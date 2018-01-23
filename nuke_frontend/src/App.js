@@ -106,6 +106,7 @@ class App extends React.Component {
               </div>
               <div className="control-panel">
                 <ControlPanel
+                  players={this.state.players}
                   activePlayer={this.state.activePlayer}
                   nextTurn={this.nextTurn}
                   {...this.props}
