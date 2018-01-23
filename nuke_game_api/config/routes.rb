@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   resources :grid_squares
 
-  resources :players do
-    resources :weapons
-  end
+  resources :players
+
+  resources :weapons
 
   patch "/end", to: "grid_squares#end_game"
 

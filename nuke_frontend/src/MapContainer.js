@@ -8,18 +8,11 @@ const HEADERS = {
 };
 
 class MapContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    fetch(`http://localhost:3001/players`)
-      .then(resp => resp.json())
-      .then(players => this.setState({ players: players }));
-  }
-
   handleClick = cell => {
     let gridsquareId = cell.id;
+    let weaponId = this.props.activeWeapon.id;
+    let shots = this.props.activeWeapon.shots;
+    let newShots = shots - 1;
 
     if (cell.has_player === true && this.props.activePlayer === 2) {
       alert("END GAME");
@@ -29,6 +22,8 @@ class MapContainer extends React.Component {
       alert("GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!");
 
       this.endGame();
+    } else if (cell.country === "Water") {
+      alert("Can't bomb water!");
     } else {
       let activePlayerName =
         this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
@@ -42,6 +37,12 @@ class MapContainer extends React.Component {
     })
       .then(resp => resp.json())
       .then(gridsquare => this.props.updateShot(gridsquare));
+
+    fetch(`http://localhost:3001/weapons/${weaponId}`, {
+      method: "PATCH",
+      headers: HEADERS,
+      body: JSON.stringify({ shots: newShots })
+    });
 
     this.props.nextTurn();
   };

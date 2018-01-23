@@ -4,8 +4,10 @@ const Weapon = props => {
   return (
     <div>
       {props.weapon.name}
-      {props.weapon.description}
-      : {props.weapon.shots}
+      <ul>
+        <li>{props.weapon.description}</li>
+        <li>Shots Remaining: {props.weapon.shots}</li>
+      </ul>
     </div>
   );
 };

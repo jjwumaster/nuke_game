@@ -1,9 +1,14 @@
 import React from "react";
 import WeaponSelector from "./WeaponSelector";
-import CurrentWeapon from "./CurrentWeapon";
 import CiviliansKilled from "./CiviliansKilled";
+import CurrentWeapon from "./CurrentWeapon";
 
 const ControlPanel = props => {
+  const handleClick = () => {
+    props.history.push("/");
+    props.resetGame();
+  };
+
   return (
     <div>
       {props.location.pathname === "/end" ? (
@@ -19,8 +24,9 @@ const ControlPanel = props => {
           <WeaponSelector
             players={props.players}
             activePlayer={props.activePlayer}
+            handleSelection={props.handleSelection}
+            activeWeapon={props.activeWeapon}
           />
-          <CurrentWeapon />
         </div>
       )}
     </div>
