@@ -29,6 +29,8 @@ class MapContainer extends React.Component {
       alert("You idiot!")
 
       this.endGame()
+    } else if (cell.country === "Water") {
+      alert("Can't bomb water!")
     } else {
       let activePlayerName =
         this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un"
