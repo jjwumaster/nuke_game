@@ -33,8 +33,10 @@ class App extends React.Component {
   }
 
   setMap = gridsquares => {
-    const side = Math.sqrt(gridsquares.length);
-    const range = [...Array(side).keys()];
+    // const side = Math.sqrt(gridsquares.length);
+    const width = 50;
+    const length = 86;
+    const range = [...Array(length).keys()];
     const output = [];
 
     for (let y of range) {

@@ -96,18 +96,23 @@ density_ref = {
 def populate_grid_from_map(land_map)
 
   country_ref = {
-    "n" => "North Korea",
-    "s" => "South Korea",
-    "c" => "China",
-    "r" => "Russia",
-    "j" => "Japan",
-    "." => "Water"
+    "n" => ["North Korea", "zero"],
+    "s" => ["South Korea", "zero"],
+    "h" => ["South Korea", "high"],
+    "m" => ["South Korea", "medium"],
+    "l" => ["South Korea", "low"],
+    "c" => ["China", "zero"],
+    "r" => ["Russia", "zero"],
+    "j" => ["Japan", "zero"],
+    "." => ["Water", "zero"]
     }
 
   land_map.each_with_index do |row, y|
     row_string = row.split("") # this is a row that's a string
     row_string.each_with_index do |letter, x|
-      country = country_ref[letter]
+      country = country_ref[letter][0]
+      pop = countr_ref[letter][1]
+
       land = letter == "." ? false : true
       GridSquare.create({
         x_coord: x + 1,

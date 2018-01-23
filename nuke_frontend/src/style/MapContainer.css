@@ -1,4 +1,5 @@
 table {
   overflow: hidden;
   width: 100%;
+  border-collapse: collapse;
 }
