@@ -10,6 +10,8 @@ const MapGrid = props => {
           handleClick={props.handleClick}
           row={row}
           activePlayer={props.activePlayer}
+          handleHover={props.handleHover}
+          handleLeave={props.handleLeave}
         />
       </tr>
     );

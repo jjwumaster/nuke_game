@@ -42,8 +42,10 @@ const GridSquare = props => {
   };
 
   const setColor = cell => {
-    if (cell.has_player === true && props.activePlayer === 1) {
+    if (cell.targeted === true) {
       return "purple";
+    } else if (cell.has_player === true && props.activePlayer === 1) {
+      return "pink";
     } else if (!cell.land) {
       return "#99ccff";
     } else if (cell.shot) {
@@ -68,6 +70,8 @@ const GridSquare = props => {
         onClick={() => props.handleClick(cell)}
         className="gridsquare"
         id={`cell-${cell.x_coord}-${cell.y_coord}`}
+        onMouseEnter={() => props.handleHover(cell)}
+        onMouseLeave={() => props.handleLeave(cell)}
       />
     );
   });
