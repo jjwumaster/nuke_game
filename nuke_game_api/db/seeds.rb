@@ -86,42 +86,52 @@ hwasong_15 = Weapon.create({
     player: kim_jong_un
   })
 
-density_ref = {
+DENSITY_REF = {
   h: "high",
   m: "medium",
   l: "low",
   z: "zero"
   }
 
+COUNTRY_REF = {
+  "n" => ["North Korea", "zero"],
+  "s" => ["South Korea", "zero"],
+  "h" => ["South Korea", "high"],
+  "m" => ["South Korea", "medium"],
+  "l" => ["South Korea", "low"],
+  "c" => ["China", "zero"],
+  "r" => ["Russia", "zero"],
+  "j" => ["Japan", "zero"],
+  "." => ["Water", "zero"]
+}
+
+POP_REF = {
+  "high" => 1000,
+  "medium" => 500,
+  "low" => 100,
+  "zero" => 0
+}
+
+GRID_SIZE = 500
+
 def populate_grid_from_map(land_map)
 
-  country_ref = {
-    "n" => ["North Korea", "zero"],
-    "s" => ["South Korea", "zero"],
-    "h" => ["South Korea", "high"],
-    "m" => ["South Korea", "medium"],
-    "l" => ["South Korea", "low"],
-    "c" => ["China", "zero"],
-    "r" => ["Russia", "zero"],
-    "j" => ["Japan", "zero"],
-    "." => ["Water", "zero"]
-    }
 
   land_map.each_with_index do |row, y|
     row_string = row.split("") # this is a row that's a string
     row_string.each_with_index do |letter, x|
-      country = country_ref[letter][0]
-      pop = country_ref[letter][1]
+      country = COUNTRY_REF[letter][0]
+      density = COUNTRY_REF[letter][1]
 
       land = letter == "." ? false : true
       GridSquare.create({
         x_coord: x + 1,
         y_coord: y + 1,
-        pop: 0,
+        pop: POP_REF[density] * GRID_SIZE,
         shot: false,
         land: land,
         country: country,
-        density: "zero"
+        density: density
         })
     end
   end

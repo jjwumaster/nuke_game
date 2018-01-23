@@ -11,7 +11,8 @@ class App extends React.Component {
       gridsquares: [],
       players: [],
       activePlayer: 1,
-      startScreen: true
+      startScreen: true,
+      civiliansKilled: 0
     };
   }
 
@@ -35,7 +36,7 @@ class App extends React.Component {
   setMap = gridsquares => {
     // const side = Math.sqrt(gridsquares.length);
     const width = 50;
-    const length = 85;
+    const length = gridsquares.length / 50;
     const range = [...Array(length).keys()];
     const output = [];
 

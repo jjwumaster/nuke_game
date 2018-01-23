@@ -13,13 +13,13 @@ const GridSquare = props => {
       high: "#0099ff",
       medium: "#33ccff",
       low: "#66ccff",
-      zero: "#99ccff"
+      zero: "#F0F8FF"
     },
     Russia: {
-      high: "#009933",
-      medium: "#33cc33",
-      low: "#66ff66",
-      zero: "#99ff99"
+      high: "red",
+      medium: "red",
+      low: "red",
+      zero: "red"
     },
     Japan: {
       high: "#009933",
@@ -34,10 +34,10 @@ const GridSquare = props => {
       zero: "#ffcccc"
     },
     Water: {
-      high: "teal",
-      medium: "teal",
-      low: "teal",
-      zero: "teal"
+      high: "#99ccff",
+      medium: "#99ccff",
+      low: "#99ccff",
+      zero: "#99ccff"
     }
   };
 
@@ -45,7 +45,7 @@ const GridSquare = props => {
     if (cell.has_player === true && props.activePlayer === 1) {
       return "purple";
     } else if (!cell.land) {
-      return "teal";
+      return "#99ccff";
     } else if (cell.shot) {
       return "black";
     } else {
@@ -58,6 +58,8 @@ const GridSquare = props => {
     const style = {
       backgroundColor: setColor(cell)
     };
+
+    // need an onHover that highlights neighboring cells
 
     return (
       <td

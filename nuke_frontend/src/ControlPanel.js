@@ -1,23 +1,21 @@
-import React from "react"
-import WeaponSelector from "./WeaponSelector"
-import CurrentWeapon from "./CurrentWeapon"
+import React from "react";
+import WeaponSelector from "./WeaponSelector";
+import CurrentWeapon from "./CurrentWeapon";
+import CiviliansKilled from "./CiviliansKilled";
 
-const ControlPanel = (props) => {
-  const handleClick = () => {
-    props.history.push("/")
-    props.endGame()
-  }
+const ControlPanel = props => {
   return (
     <div>
       {props.location.pathname === "/end" ? (
         <div>
           <img alt="" src="https://i.imgflip.com/kduan.jpg" />
           <br />
-          <button onClick={() => handleClick()}>New Game</button>
+          <button onClick={this.handleClick}>New Game</button>
         </div>
       ) : (
         <div>
           <h1>Player {props.activePlayer} turn</h1>
+          <CiviliansKilled />
           <WeaponSelector
             players={props.players}
             activePlayer={props.activePlayer}
@@ -26,7 +24,7 @@ const ControlPanel = (props) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ControlPanel
+export default ControlPanel;
