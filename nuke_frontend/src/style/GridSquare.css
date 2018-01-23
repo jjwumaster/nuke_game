@@ -7,13 +7,6 @@ td {
   position: relative;
 }
 
-td:hover {
+/* td:hover {
   outline: 1px solid purple;
-  /* content: "";
-  position: absolute;
-  left: 0;
-  top: 0px; */
-  /* height: 20px;
-  background-color: #ffa;
-  width: 20px; */
-}
+} */

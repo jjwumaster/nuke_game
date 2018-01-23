@@ -98,6 +98,8 @@ class MapContainer extends React.Component {
             handleClick={
               this.props.startScreen ? this.onClickStart : this.handleClick
             }
+            handleHover={this.props.handleHover}
+            handleLeave={this.props.handleLeave}
             activePlayer={this.props.activePlayer}
           />
         </tbody>
