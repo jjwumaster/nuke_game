@@ -35,8 +35,7 @@ class GridSquaresController < ApplicationController
         name: "Trident II",
         description: "Trident II Submarine-Based Thermonuclear Weapon. Mark V MIRV carries twelve 475 kiloton warheads.",
         shots: 5,
-        x_dim: 4,
-        y_dim: 4,
+        blast_radius: 4,
         success_rate: 1.00,
         player: donald_trump
       })
@@ -45,8 +44,7 @@ class GridSquaresController < ApplicationController
         name: "B83 Thermonuclear Bomb",
         description: "Variable-yield unguided bomb deployed by the B2 Spirit Bomber. Maximum yield of 1.2 megatons.",
         shots: 10,
-        x_dim: 3,
-        y_dim: 3,
+        blast_radius: 2,
         success_rate: 1.00,
         player: donald_trump
       })
@@ -55,8 +53,7 @@ class GridSquaresController < ApplicationController
         name: "B81 Thermonuclear Bomb",
         description: "Low-to-intermediate-yield tactical nuclear weapon. Maximum yield of 340 kilotons.",
         shots: 20,
-        x_dim: 2,
-        y_dim: 2,
+        blast_radius: 1,
         success_rate: 1.00,
         player: donald_trump
       })
@@ -65,8 +62,7 @@ class GridSquaresController < ApplicationController
         name: "Hwasong 7",
         description: "",
         shots: 100,
-        x_dim: 1,
-        y_dim: 1,
+        blast_radius: 0,
         success_rate: 0.90,
         player: kim_jong_un
       })
@@ -75,8 +71,7 @@ class GridSquaresController < ApplicationController
         name: "Hwasong 10",
         description: "",
         shots: 10,
-        x_dim: 2,
-        y_dim: 2,
+        blast_radius: 1,
         success_rate: 0.50,
         player: kim_jong_un
       })
@@ -85,8 +80,7 @@ class GridSquaresController < ApplicationController
         name: "Hwasong 15",
         description: "",
         shots: 5,
-        x_dim: 3,
-        y_dim: 3,
+        blast_radius: 2,
         success_rate: 0.20,
         player: kim_jong_un
       })

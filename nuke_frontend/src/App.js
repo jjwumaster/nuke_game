@@ -15,7 +15,7 @@ class App extends React.Component {
       startScreen: true,
       civiliansKilled: 0,
       activeWeapon: {},
-      blastRadius: 1,
+      blastRadius: 0,
       mapWidth: 0,
       mapLength: 0
     };
@@ -75,23 +75,42 @@ class App extends React.Component {
   handleHover = cell => {
     let blastRadius = this.state.blastRadius;
     let blastWidth = this.state.blastRadius * 2 + 1;
+    let mapX = this.state.mapWidth - 1;
+    let mapY = this.state.mapLength - 1;
     let column = cell.x_coord - 1;
     let row = cell.y_coord - 1;
     let localGridSquares = this.state.gridsquares;
 
-    for (let y of this.range(blastWidth, row - blastRadius)) {
-      for (let x of this.range(blastWidth, column - blastRadius)) {
+    let xlowerBound = column - blastRadius;
+    let ylowerBound = row - blastRadius;
+    let xDimension = blastWidth;
+    let yDimension = blastWidth;
+
+    if (column > mapX - blastRadius) {
+      xlowerBound = column - blastRadius;
+      xDimension = mapX - xlowerBound + 1;
+    }
+
+    if (column < blastRadius) {
+      xlowerBound = 0;
+      xDimension = blastWidth - column;
+    }
+
+    if (row < blastRadius) {
+      ylowerBound = row - blastRadius;
+      yDimension = mapY - ylowerBound + 1;
+    }
+
+    if (row > mapY - blastRadius) {
+      ylowerBound = 0;
+      yDimension = blastWidth - row;
+    }
+
+    for (let y of this.range(ylowerBound, yDimension)) {
+      for (let x of this.range(xlowerBound, xDimension)) {
         let yaway = Math.abs(row - y); // how many rows away i am from home row
         let xaway = Math.abs(column - x); // how many columns i am from home column
-        console.log(x, y);
-        if (
-          y >= this.state.mapLength + 1 ||
-          y <= -1 ||
-          x >= this.state.mapWidth + 1 ||
-          x <= -1
-        ) {
-          return null;
-        } else if (xaway + yaway >= blastRadius + 1) {
+        if (xaway + yaway >= blastRadius + 1) {
           localGridSquares[y][x].targeted = false;
         } else {
           localGridSquares[y][x].targeted = true;
@@ -99,30 +118,46 @@ class App extends React.Component {
       }
     }
 
-    // localGridSquares[row][column].targeted = true;
-
     this.setState({ gridsquares: localGridSquares });
   };
 
   handleLeave = cell => {
     let blastRadius = this.state.blastRadius;
     let blastWidth = this.state.blastRadius * 2 + 1;
+    let mapX = this.state.mapWidth - 1;
+    let mapY = this.state.mapLength - 1;
     let column = cell.x_coord - 1;
     let row = cell.y_coord - 1;
     let localGridSquares = this.state.gridsquares;
 
-    for (let y of this.range(blastWidth, row - blastRadius)) {
-      for (let x of this.range(blastWidth, column - blastRadius)) {
-        if (
-          y >= this.state.mapLength + 1 ||
-          y <= -1 ||
-          x >= this.state.mapWidth + 1 ||
-          x <= -1
-        ) {
-          return null;
-        } else {
-          localGridSquares[y][x].targeted = false;
-        }
+    let xlowerBound = column - blastRadius;
+    let ylowerBound = row - blastRadius;
+    let xDimension = blastWidth;
+    let yDimension = blastWidth;
+
+    if (column > mapX - blastRadius) {
+      xlowerBound = column - blastRadius;
+      xDimension = mapX - xlowerBound;
+    }
+
+    if (column < blastRadius) {
+      xlowerBound = 0;
+      xDimension = blastWidth - column;
+    }
+
+    if (row < blastRadius) {
+      ylowerBound = row - blastRadius;
+      yDimension = blastWidth - row;
+    }
+
+    if (row > mapY - blastRadius) {
+      ylowerBound = 0;
+      yDimension = blastWidth - row;
+    }
+
+    for (let y of this.range(ylowerBound, yDimension)) {
+      for (let x of this.range(xlowerBound, xDimension)) {
+        localGridSquares[y][x].targeted = false;
       }
     }
 
@@ -180,7 +215,10 @@ class App extends React.Component {
   };
 
   handleSelection = weapon => {
-    this.setState({ activeWeapon: weapon });
+    this.setState({
+      activeWeapon: weapon,
+      blastRadius: weapon.blast_radius
+    });
   };
 
   render() {
