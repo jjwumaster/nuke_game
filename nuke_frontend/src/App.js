@@ -1,104 +1,106 @@
-import React from "react"
-import { Route, withRouter } from "react-router-dom"
-import MapContainer from "./MapContainer"
-import ControlPanel from "./ControlPanel"
-import "./style/App.css"
+import React from "react";
+import { Route, withRouter } from "react-router-dom";
+import MapContainer from "./MapContainer";
+import ControlPanel from "./ControlPanel";
+import "./style/App.css";
 
 class App extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       gridsquares: [],
       activePlayer: 1,
       startScreen: true
-    }
+    };
   }
 
   componentDidMount() {
-    this.fetchGridSquares()
-    this.fetchPlayers()
+    this.fetchGridSquares();
+    this.fetchPlayers();
   }
 
   fetchGridSquares() {
     fetch("http://localhost:3001/grid_squares")
-      .then((resp) => resp.json())
-      .then((gridsquares) => this.setMap(gridsquares))
+      .then(resp => resp.json())
+      .then(gridsquares => this.setMap(gridsquares));
   }
 
   fetchPlayers() {
     fetch("http://localhost:3001/players")
-      .then((resp) => resp.json())
-      .then((players) => this.setState({ players: players }))
+      .then(resp => resp.json())
+      .then(players => this.setState({ players: players }));
   }
 
-  setMap = (gridsquares) => {
-    const side = Math.sqrt(gridsquares.length)
-    const range = [...Array(side).keys()]
-    const output = []
+  setMap = gridsquares => {
+    // const side = Math.sqrt(gridsquares.length);
+    const width = 50;
+    const length = 95;
+    const range = [...Array(length).keys()];
+    const output = [];
 
     for (let y of range) {
-      output.push([])
+      output.push([]);
 
       // need to make rowSquares a hash...
 
       let rowSquares = gridsquares
-        .filter((gridsquare) => {
-          return gridsquare["y_coord"] === y + 1
+        .filter(gridsquare => {
+          return gridsquare["y_coord"] === y + 1;
         })
         .sort((a, b) => {
-          return a["x_coord"] - b["x_coord"]
-        })
+          return a["x_coord"] - b["x_coord"];
+        });
 
       for (let square in rowSquares) {
-        output[y].push(rowSquares[square])
+        output[y].push(rowSquares[square]);
       }
     }
 
-    this.setState({ gridsquares: output })
-  }
+    this.setState({ gridsquares: output });
+  };
 
-  updateShot = (gridsquare) => {
-    const rowIndex = gridsquare.y_coord - 1
-    const columnIndex = gridsquare.x_coord - 1
+  updateShot = gridsquare => {
+    const rowIndex = gridsquare.y_coord - 1;
+    const columnIndex = gridsquare.x_coord - 1;
 
-    let localGridsquares = this.state.gridsquares
-    localGridsquares[rowIndex][columnIndex].shot = true
+    let localGridsquares = this.state.gridsquares;
+    localGridsquares[rowIndex][columnIndex].shot = true;
 
-    this.setState({ gridsquares: localGridsquares })
-  }
+    this.setState({ gridsquares: localGridsquares });
+  };
 
-  updateHidingSpot = (gridsquare) => {
-    const rowIndex = gridsquare.y_coord - 1
-    const columnIndex = gridsquare.x_coord - 1
+  updateHidingSpot = gridsquare => {
+    const rowIndex = gridsquare.y_coord - 1;
+    const columnIndex = gridsquare.x_coord - 1;
 
-    let localGridsquares = this.state.gridsquares
-    localGridsquares[rowIndex][columnIndex].has_player = true
+    let localGridsquares = this.state.gridsquares;
+    localGridsquares[rowIndex][columnIndex].has_player = true;
 
-    this.setState({ gridsquares: localGridsquares })
-  }
+    this.setState({ gridsquares: localGridsquares });
+  };
 
   startGame = () => {
     this.setState({
       startScreen: false
-    })
-    this.nextTurn()
-  }
+    });
+    this.nextTurn();
+  };
 
   endGame = () => {
     this.setState({
       startScreen: true,
       activePlayer: 1
-    })
-    this.fetchGridSquares()
-    this.fetchPlayers()
-  }
+    });
+    this.fetchGridSquares();
+    this.fetchPlayers();
+  };
 
   nextTurn = () => {
-    let nextState = this.state.activePlayer === 1 ? 2 : 1
+    let nextState = this.state.activePlayer === 1 ? 2 : 1;
     this.setState({
       activePlayer: nextState
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -135,8 +137,8 @@ class App extends React.Component {
           )}
         />
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(App)
+export default withRouter(App);
