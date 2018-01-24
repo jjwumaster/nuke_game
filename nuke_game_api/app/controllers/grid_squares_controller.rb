@@ -33,7 +33,7 @@ class GridSquaresController < ApplicationController
 
     trident_ii = Weapon.create({
         name: "Trident II",
-        description: "Trident II Submarine-Based Thermonuclear Weapon. Mark V MIRV carries twelve 475 kiloton warheads.",
+        description: "Submarine-based thermonuclear Weapon. Mark V MIRV carries twelve 475 kiloton warheads.",
         shots: 5,
         x_dim: 4,
         y_dim: 4,
@@ -41,39 +41,40 @@ class GridSquaresController < ApplicationController
         player: donald_trump
       })
 
-    b83 = Weapon.create({
-        name: "B83 Thermonuclear Bomb",
-        description: "Variable-yield unguided bomb deployed by the B2 Spirit Bomber. Maximum yield of 1.2 megatons.",
-        shots: 10,
+      b83 = Weapon.create({
+          name: "B83 Thermonuclear Bomb",
+          description: "Variable-yield unguided bomb deployed by the B2 Spirit Bomber. Maximum yield of 1.2 megatons.",
+          shots: 10,
+          x_dim: 3,
+          y_dim: 3,
+          success_rate: 1.00,
+          player: donald_trump
+        })
+
+
+      b81 = Weapon.create({
+          name: "B81 Thermonuclear Bomb",
+          description: "Low-to-intermediate-yield tactical nuclear weapon. Maximum yield of 340 kilotons.",
+          shots: 20,
+          x_dim: 2,
+          y_dim: 2,
+          success_rate: 1.00,
+          player: donald_trump
+        })
+
+    hwasong_15 = Weapon.create({
+        name: "Hwasong 15",
+        description: "Intercontinental ballistic missile. Capable of reaching all of the United States mainland.",
+        shots: 5,
         x_dim: 3,
         y_dim: 3,
-        success_rate: 1.00,
-        player: donald_trump
-      })
-
-    b81 = Weapon.create({
-        name: "B81 Thermonuclear Bomb",
-        description: "Low-to-intermediate-yield tactical nuclear weapon. Maximum yield of 340 kilotons.",
-        shots: 20,
-        x_dim: 2,
-        y_dim: 2,
-        success_rate: 1.00,
-        player: donald_trump
-      })
-
-    hwasong_7 = Weapon.create({
-        name: "Hwasong 7",
-        description: "",
-        shots: 100,
-        x_dim: 1,
-        y_dim: 1,
-        success_rate: 0.90,
+        success_rate: 0.20,
         player: kim_jong_un
       })
 
     hwasong_10 = Weapon.create({
         name: "Hwasong 10",
-        description: "",
+        description: "Mobile intermediate-range ballistic missile.",
         shots: 10,
         x_dim: 2,
         y_dim: 2,
@@ -81,15 +82,15 @@ class GridSquaresController < ApplicationController
         player: kim_jong_un
       })
 
-    hwasong_15 = Weapon.create({
-        name: "Hwasong 15",
-        description: "",
-        shots: 5,
-        x_dim: 3,
-        y_dim: 3,
-        success_rate: 0.20,
-        player: kim_jong_un
-      })
+      hwasong_7 = Weapon.create({
+          name: "Hwasong 7",
+          description: "Single-stage, mobile liquid propellant medium-range ballistic missile.",
+          shots: 100,
+          x_dim: 1,
+          y_dim: 1,
+          success_rate: 0.90,
+          player: kim_jong_un
+        })
 
   end
 
