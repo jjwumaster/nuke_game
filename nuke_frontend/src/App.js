@@ -96,15 +96,17 @@ class App extends React.Component {
       xDimension = blastWidth - column
     }
 
-    if (row < blastRadius) {
+    if (row > mapY - blastRadius) {
       ylowerBound = row - blastRadius
       yDimension = mapY - ylowerBound + 1
     }
 
-    if (row > mapY - blastRadius) {
+    if (row < blastRadius) {
       ylowerBound = 0
       yDimension = blastWidth - row
     }
+
+    console.log("Y:", ylowerBound, yDimension, "X:", xlowerBound, xDimension)
 
     for (let y of this.range(ylowerBound, yDimension)) {
       for (let x of this.range(xlowerBound, xDimension)) {
@@ -137,7 +139,7 @@ class App extends React.Component {
 
     if (column > mapX - blastRadius) {
       xlowerBound = column - blastRadius
-      xDimension = mapX - xlowerBound
+      xDimension = mapX - xlowerBound + 1
     }
 
     if (column < blastRadius) {
@@ -145,12 +147,12 @@ class App extends React.Component {
       xDimension = blastWidth - column
     }
 
-    if (row < blastRadius) {
+    if (row > mapY - blastRadius) {
       ylowerBound = row - blastRadius
-      yDimension = blastWidth - row
+      yDimension = mapY - ylowerBound + 1
     }
 
-    if (row > mapY - blastRadius) {
+    if (row < blastRadius) {
       ylowerBound = 0
       yDimension = blastWidth - row
     }
