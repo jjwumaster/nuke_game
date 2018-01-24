@@ -10,6 +10,7 @@ class App extends React.Component {
 
     this.state = {
       gridsquares: [],
+      targetedSquares: [],
       players: [],
       activePlayer: 1,
       startScreen: true,
@@ -106,7 +107,9 @@ class App extends React.Component {
       yDimension = blastWidth - row;
     }
 
-    console.log("Y:", ylowerBound, yDimension, "X:", xlowerBound, xDimension);
+    // console.log("Y:", ylowerBound, yDimension, "X:", xlowerBound, xDimension);
+
+    let targetedSquares = [];
 
     for (let y of this.range(ylowerBound, yDimension)) {
       for (let x of this.range(xlowerBound, xDimension)) {
@@ -116,11 +119,15 @@ class App extends React.Component {
           localGridSquares[y][x].targeted = false;
         } else {
           localGridSquares[y][x].targeted = true;
+          targetedSquares.push(localGridSquares[y][x]);
         }
       }
     }
 
-    this.setState({ gridsquares: localGridSquares });
+    this.setState({
+      gridsquares: localGridSquares,
+      targetedSquares: targetedSquares
+    });
   };
 
   handleLeave = cell => {
@@ -163,7 +170,7 @@ class App extends React.Component {
       }
     }
 
-    this.setState({ gridsquares: localGridSquares });
+    this.setState({ gridsquares: localGridSquares, targetedSquares: [] });
   };
 
   range = (length, lowerBound) => {
@@ -245,6 +252,8 @@ class App extends React.Component {
                   activeWeapon={this.state.activeWeapon}
                   handleHover={this.handleHover}
                   handleLeave={this.handleLeave}
+                  blastRadius={this.state.blastRadius}
+                  targetedSquares={this.state.targetedSquares}
                   {...this.props}
                 />
               </div>

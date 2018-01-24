@@ -8,41 +8,57 @@ const HEADERS = {
 };
 
 class MapContainer extends React.Component {
-  handleClick = cell => {
-    let gridsquareId = cell.id;
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick = () => {
+    let alertMessage = "";
     let weaponId = this.props.activeWeapon.id;
     let shots = this.props.activeWeapon.shots;
     let newShots = shots - 1;
 
-    if (cell.has_player === true && this.props.activePlayer === 2) {
-      alert("END GAME");
+    let targetedSquares = this.props.targetedSquares;
 
-      this.endGame();
-    } else if (cell.has_player === true && this.props.activePlayer === 1) {
-      alert("GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!");
+    for (let gridsquare of targetedSquares) {
+      let gridsquareId = gridsquare.id;
 
-      this.endGame();
-    } else if (cell.country === "Water") {
-      alert("Can't bomb water!");
-    } else {
-      let activePlayerName =
-        this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
-      alert(`Successful bombing run! Now it's ${activePlayerName}'s turn!`);
+      if (gridsquare.has_player === true && this.props.activePlayer === 2) {
+        alertMessage = "GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!";
+        this.endGame();
+      } else if (
+        gridsquare.has_player === true &&
+        this.props.activePlayer === 1
+      ) {
+        alertMessage = "WE DEFEAT OUR OWN GLORIOUS COUNTRY! NOOOOOOO!!!!!";
+        this.endGame();
+
+        // } else if (cell.country === "Water") {
+        //   this.setState({alertMessage: "Can't bomb water!"; })
+        //
+      } else {
+        let activePlayerName =
+          this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
+        alertMessage = `Successful bombing run! Now it's ${activePlayerName}'s turn!`;
+
+        fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
+          method: "PATCH",
+          headers: HEADERS,
+          body: JSON.stringify({ shot: true })
+        })
+          .then(resp => resp.json())
+          .then(gridsquare => this.props.updateShot(gridsquare));
+
+        fetch(`http://localhost:3001/weapons/${weaponId}`, {
+          method: "PATCH",
+          headers: HEADERS,
+          body: JSON.stringify({ shots: newShots })
+        });
+      }
     }
 
-    fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
-      method: "PATCH",
-      headers: HEADERS,
-      body: JSON.stringify({ shot: true })
-    })
-      .then(resp => resp.json())
-      .then(gridsquare => this.props.updateShot(gridsquare));
-
-    fetch(`http://localhost:3001/weapons/${weaponId}`, {
-      method: "PATCH",
-      headers: HEADERS,
-      body: JSON.stringify({ shots: newShots })
-    });
+    alert(alertMessage);
 
     this.props.nextTurn();
   };

@@ -125,7 +125,8 @@ def populate_grid_from_map(land_map)
         shot: false,
         land: land,
         country: country,
-        density: density
+        density: density,
+        targeted: false
         })
     end
   end
