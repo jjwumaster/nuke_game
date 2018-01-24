@@ -5,8 +5,8 @@ const Weapon = props => {
     <div>
       {props.weapon.name}
       <ul>
-        <li>{props.weapon.description}</li>
-        <li>Shots Remaining: {props.weapon.shots}</li>
+        <li>Remaining Inventory: {props.weapon.shots}</li>
+        <li>Reliability: {props.weapon.success_rate * 100}%</li>
       </ul>
     </div>
   );

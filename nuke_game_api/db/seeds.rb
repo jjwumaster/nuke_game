@@ -17,13 +17,15 @@ puts Dir.pwd
 kim_jong_un = Player.create({
   player_number: 1,
   name: "Kim Jong Un",
-  description: "Supreme Glorious Commander-God of Best Korea"
+  description: "Supreme Glorious Commander-God of Best Korea",
+  flag: "🇰🇵"
 })
 
 donald_trump = Player.create({
   player_number: 2,
   name: "Donald J. Trump",
-  description: "Commander in Chief of the United States Armed Forces."
+  description: "Commander in Chief of the United States Armed Forces.",
+  flag: "🇺🇸"
 })
 
 trident_ii = Weapon.create({
@@ -53,17 +55,17 @@ b81 = Weapon.create({
   player: donald_trump
 })
 
-hwasong_15 = Weapon.create({
-  name: "Hwasong 15",
-  description: "Single-stage, mobile liquid propellant medium-range ballistic missile.",
+no_dong_1 = Weapon.create({
+  name: "No-Dong 1",
+  description: "Medium-range, mobile liquid propellant ballistic missile.",
   shots: 5,
   blast_radius: 2,
   success_rate: 0.20,
   player: kim_jong_un
 })
 
-hwasong_10 = Weapon.create({
-  name: "Hwasong 10",
+hwasong_7 = Weapon.create({
+  name: "Hwasong 7",
   description: "Mobile intermediate-range ballistic missile.",
   shots: 10,
   blast_radius: 1,
@@ -71,9 +73,9 @@ hwasong_10 = Weapon.create({
   player: kim_jong_un
 })
 
-hwasong_7 = Weapon.create({
-  name: "Hwasong 7",
-  description: "Single-stage, mobile liquid propellant medium-range ballistic missile.",
+hwasong_5 = Weapon.create({
+  name: "Hwasong 5",
+  description: "Short-range tactical ballistic missile.",
   shots: 100,
   blast_radius: 0,
   success_rate: 0.90,

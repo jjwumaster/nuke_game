@@ -252,9 +252,16 @@ class App extends React.Component {
           path="/"
           render={() => (
             <div className="wrapper">
-              <div className="header">Welcome to the nuke game</div>
-              <div className="map-header">Map Header</div>
-              <div className="control-header"> Control Header</div>
+              <div className="header">
+                <h1>
+                  <i>NUCLEAR WAR!</i>
+                </h1>
+                <hr />
+                <h2>
+                  DONALD TRUMP READIES NUCLEAR FORCES TO STRIKE NORTH KOREA
+                </h2>
+                <hr />
+              </div>
               <div className="map-container">
                 <MapContainer
                   gridsquares={this.state.gridsquares}

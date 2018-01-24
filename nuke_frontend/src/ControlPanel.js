@@ -8,6 +8,18 @@ const ControlPanel = props => {
     props.resetGame();
   };
 
+  const findPlayer = activePlayer => {
+    return props.players.find(player => player.player_number === activePlayer);
+  };
+
+  let currentPlayer = findPlayer(props.activePlayer)
+    ? findPlayer(props.activePlayer)
+    : null;
+
+  let currentName = currentPlayer ? currentPlayer.name : null;
+  let currentDescription = currentPlayer ? currentPlayer.description : null;
+  let currentFlag = currentPlayer ? currentPlayer.flag : null;
+
   return (
     <div>
       {props.location.pathname === "/end" ? (
@@ -18,15 +30,24 @@ const ControlPanel = props => {
         </div>
       ) : (
         <div>
-          <h1>Player {props.activePlayer} turn</h1>
-          <CiviliansKilled civiliansKilled={props.civiliansKilled} />
-          <br />
-          <WeaponSelector
-            players={props.players}
-            activePlayer={props.activePlayer}
-            handleSelection={props.handleSelection}
-            activeWeapon={props.activeWeapon}
-          />
+          <div>
+            <h1>
+              Current Actor: {currentName} {currentFlag}
+            </h1>
+            <h2>
+              <i>{currentDescription}</i>
+            </h2>
+          </div>
+          <div>
+            <CiviliansKilled civiliansKilled={props.civiliansKilled} />
+            <br />
+            <WeaponSelector
+              players={props.players}
+              activePlayer={props.activePlayer}
+              handleSelection={props.handleSelection}
+              activeWeapon={props.activeWeapon}
+            />
+          </div>
         </div>
       )}
     </div>

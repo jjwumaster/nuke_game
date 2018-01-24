@@ -8,18 +8,20 @@ const WeaponSelector = props => {
   });
 
   if (currentPlayer) {
-    const weaponsList = currentPlayer.weapons.map(weapon => (
-      <div key={weapon.id} onClick={() => props.handleSelection(weapon)}>
+    const weaponsList = currentPlayer.weapons.map((weapon, i) => (
+      <div
+        key={weapon.id}
+        onClick={() => props.handleSelection(weapon)}
+        className="ui fluid card"
+      >
         <Weapon weapon={weapon} />
       </div>
     ));
     return (
       <div>
         <h3>Weapon Selection</h3>
-        {weaponsList}
-        {Object.keys(props.activeWeapon).length === 0 ? (
-          <div />
-        ) : (
+        <div className="ui three cards">{weaponsList}</div>
+        {Object.keys(props.activeWeapon).length === 0 ? null : (
           <div>
             <h3>Active Weapon</h3>
             <CurrentWeapon activeWeapon={props.activeWeapon} />
