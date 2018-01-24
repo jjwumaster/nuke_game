@@ -24,12 +24,17 @@ class MapContainer extends React.Component {
     for (let gridsquare of targetedSquares) {
       let gridsquareId = gridsquare.id;
 
-      if (gridsquare.has_player === true && this.props.activePlayer === 2) {
+      if (
+        gridsquare.has_player === true &&
+        this.props.activePlayer === 2 &&
+        weaponId
+      ) {
         alertMessage = "GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!";
         this.endGame();
       } else if (
         gridsquare.has_player === true &&
-        this.props.activePlayer === 1
+        this.props.activePlayer === 1 &&
+        weaponId
       ) {
         alertMessage = "WE DEFEAT OUR OWN GLORIOUS COUNTRY! NOOOOOOO!!!!!";
         this.endGame();
@@ -37,7 +42,9 @@ class MapContainer extends React.Component {
         // } else if (cell.country === "Water") {
         //   this.setState({alertMessage: "Can't bomb water!"; })
         //
-      } else {
+      } else if (!weaponId) {
+        alertMessage = "Select your weapon.";
+      } else if (weaponId) {
         let activePlayerName =
           this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
         alertMessage = `Successful bombing run! Now it's ${activePlayerName}'s turn!`;
@@ -60,6 +67,7 @@ class MapContainer extends React.Component {
 
     alert(alertMessage);
 
+    this.props.killCivilians();
     this.props.nextTurn();
   };
 

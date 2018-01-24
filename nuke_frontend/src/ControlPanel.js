@@ -1,7 +1,7 @@
 import React from "react";
 import WeaponSelector from "./WeaponSelector";
 import CiviliansKilled from "./CiviliansKilled";
-// import CurrentWeapon from "./CurrentWeapon";
+import CurrentWeapon from "./CurrentWeapon";
 
 const ControlPanel = props => {
   const handleClick = () => {
@@ -15,12 +15,13 @@ const ControlPanel = props => {
         <div>
           <img alt="" src="https://i.imgflip.com/kduan.jpg" />
           <br />
-          <button onClick={this.handleClick}>New Game</button>
+          <button onClick={() => handleClick()}>New Game</button>
         </div>
       ) : (
         <div>
           <h1>Player {props.activePlayer} turn</h1>
-          <CiviliansKilled />
+          <CiviliansKilled civiliansKilled={props.civiliansKilled} />
+          <br />
           <WeaponSelector
             players={props.players}
             activePlayer={props.activePlayer}

@@ -230,6 +230,14 @@ class App extends React.Component {
     });
   };
 
+  // killCivilians = () => {
+  //   let killed =
+  //   let newKillCount =
+  //   this.setState({
+  //     civiliansKilled: newKillCount
+  //   })
+  // }
+
   render() {
     return (
       <div>
@@ -265,6 +273,8 @@ class App extends React.Component {
                   resetGame={this.resetGame}
                   activeWeapon={this.state.activeWeapon}
                   handleSelection={this.handleSelection}
+                  civiliansKilled={this.state.civiliansKilled}
+                  startScreen={this.state.startScreen}
                   {...this.props}
                 />
               </div>
