@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 
   patch "/end", to: "grid_squares#end_game"
 
+
 end

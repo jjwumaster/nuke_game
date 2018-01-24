@@ -1,110 +1,102 @@
-import React from "react";
-import MapGrid from "./MapGrid";
-import "./style/MapContainer.css";
+import React from "react"
+import MapGrid from "./MapGrid"
+import "./style/MapContainer.css"
 
 const HEADERS = {
   "Content-Type": "application/json",
   Accept: "application/json"
-};
+}
 
 class MapContainer extends React.Component {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick = () => {
-    let alertMessage = "";
-    let weaponId = this.props.activeWeapon.id;
-    let shots = this.props.activeWeapon.shots;
-    let newShots = shots - 1;
+    let alertMessage = ""
+    let weaponId = this.props.activeWeapon.id
+    let shots = this.props.activeWeapon.shots
+    let newShots = shots - 1
 
-    let targetedSquares = this.props.targetedSquares;
+    let targetedSquares = this.props.targetedSquares
+    let updateIds = []
+    let finalAlertMessage
 
     for (let gridsquare of targetedSquares) {
-      let gridsquareId = gridsquare.id;
+      let gridsquareId = gridsquare.id
 
-      if (
-        gridsquare.has_player === true &&
-        this.props.activePlayer === 2 &&
-        weaponId
-      ) {
-        alertMessage = "GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!";
-        this.endGame();
-      } else if (
-        gridsquare.has_player === true &&
-        this.props.activePlayer === 1 &&
-        weaponId
-      ) {
-        alertMessage = "WE DEFEAT OUR OWN GLORIOUS COUNTRY! NOOOOOOO!!!!!";
-        this.endGame();
+      if (weaponId) {
+        if (gridsquare.has_player) {
+          this.props.activePlayer === 2
+            ? (alertMessage = "GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!")
+            : (alertMessage =
+                "WE DEFEAT OUR OWN GLORIOUS COUNTRY! NOOOOOOO!!!!!")
+          finalAlertMessage = true
+          this.endGame()
+        } else {
+          let activePlayerName =
+            this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un"
+          alertMessage = finalAlertMessage
+            ? alertMessage
+            : `Successful bombing run! Now it's ${activePlayerName}'s turn!`
 
-        // } else if (cell.country === "Water") {
-        //   this.setState({alertMessage: "Can't bomb water!"; })
-        //
-      } else if (!weaponId) {
-        alertMessage = "Select your weapon.";
-      } else if (weaponId) {
-        let activePlayerName =
-          this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
-        if (!this.props.gameEnded) {
-          alertMessage = `Successful bombing run! Now it's ${activePlayerName}'s turn!`;
+          fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
+            method: "PATCH",
+            headers: HEADERS,
+            body: JSON.stringify({ shot: true })
+          })
+            .then((resp) => resp.json())
+            .then((gridsquare) => this.props.updateShot(gridsquare))
+
+          this.props.killCivilians()
         }
-
-        fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
-          method: "PATCH",
-          headers: HEADERS,
-          body: JSON.stringify({ shot: true })
-        })
-          .then(resp => resp.json())
-          .then(gridsquare => this.props.updateShot(gridsquare));
-
-        this.props.killCivilians();
+      } else if (!weaponId) {
+        alertMessage = "Select your weapon."
       }
     }
-
     if (weaponId) {
       fetch(`http://localhost:3001/weapons/${weaponId}`, {
         method: "PATCH",
         headers: HEADERS,
         body: JSON.stringify({ shots: newShots })
-      });
+      })
 
-      this.props.nextTurn();
+      alert(alertMessage)
+
+      this.props.nextTurn()
     }
-
-    alert(alertMessage);
-  };
+  }
 
   endGame = () => {
     fetch("http://localhost:3001/end/", {
       method: "PATCH"
-    });
-    this.props.history.push("/end");
-  };
+    })
+    this.props.history.push("/end")
+  }
 
-  onClickStart = cell => {
-    const xCoord = cell.x_coord;
-    const yCoord = cell.y_coord;
+  onClickStart = (cell) => {
+    const xCoord = cell.x_coord
+    const yCoord = cell.y_coord
 
     if (!cell.land) {
-      alert("부끄러운 지도자 ... this is water");
+      alert("부끄러운 지도자 ... this is water")
     } else if (cell.country !== "North Korea") {
-      alert("이건 조국이 아니야 ... this is not the motherland!");
+      alert("이건 조국이 아니야 ... this is not the motherland!")
     } else {
       fetch(`http://localhost:3001/players`, {
         method: "POST",
         headers: HEADERS,
         body: JSON.stringify({ x_coord: xCoord, y_coord: yCoord })
-      });
+      })
 
-      this.setHidingSpot(cell);
-      alert("glorious hiding spot");
+      this.setHidingSpot(cell)
+      alert("glorious hiding spot")
     }
-  };
+  }
 
-  setHidingSpot = cell => {
-    let cellId = cell.id;
+  setHidingSpot = (cell) => {
+    let cellId = cell.id
     fetch(`http://localhost:3001/grid_squares/${cellId}`, {
       method: "PATCH",
       headers: HEADERS,
@@ -113,10 +105,10 @@ class MapContainer extends React.Component {
           has_player: true
         }
       })
-    });
-    this.props.updateHidingSpot(cell);
-    this.props.startGame();
-  };
+    })
+    this.props.updateHidingSpot(cell)
+    this.props.startGame()
+  }
 
   render() {
     return (
@@ -133,8 +125,8 @@ class MapContainer extends React.Component {
           />
         </tbody>
       </table>
-    );
+    )
   }
 }
 
-export default MapContainer;
+export default MapContainer
