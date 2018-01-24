@@ -118,7 +118,7 @@ def populate_grid_from_map(land_map)
       GridSquare.create({
         x_coord: x + 1,
         y_coord: y + 1,
-        pop: POP_REF[density] * GRID_SIZE,
+        pop: (POP_REF[density] * GRID_SIZE) / 1000000.00,
         shot: false,
         land: land,
         country: country,

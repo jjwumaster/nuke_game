@@ -47,7 +47,9 @@ class MapContainer extends React.Component {
       } else if (weaponId) {
         let activePlayerName =
           this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un";
-        alertMessage = `Successful bombing run! Now it's ${activePlayerName}'s turn!`;
+        if (!this.props.gameEnded) {
+          alertMessage = `Successful bombing run! Now it's ${activePlayerName}'s turn!`;
+        }
 
         fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
           method: "PATCH",
@@ -57,18 +59,21 @@ class MapContainer extends React.Component {
           .then(resp => resp.json())
           .then(gridsquare => this.props.updateShot(gridsquare));
 
-        fetch(`http://localhost:3001/weapons/${weaponId}`, {
-          method: "PATCH",
-          headers: HEADERS,
-          body: JSON.stringify({ shots: newShots })
-        });
+        this.props.killCivilians();
       }
     }
 
-    alert(alertMessage);
+    if (weaponId) {
+      fetch(`http://localhost:3001/weapons/${weaponId}`, {
+        method: "PATCH",
+        headers: HEADERS,
+        body: JSON.stringify({ shots: newShots })
+      });
 
-    this.props.killCivilians();
-    this.props.nextTurn();
+      this.props.nextTurn();
+    }
+
+    alert(alertMessage);
   };
 
   endGame = () => {

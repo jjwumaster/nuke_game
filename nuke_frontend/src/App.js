@@ -14,6 +14,7 @@ class App extends React.Component {
       players: [],
       activePlayer: 1,
       startScreen: true,
+      gameEnded: false,
       civiliansKilled: 0,
       activeWeapon: {},
       blastRadius: 0,
@@ -208,7 +209,8 @@ class App extends React.Component {
     this.setState({
       startScreen: true,
       activePlayer: 1,
-      activeWeapon: {}
+      activeWeapon: {},
+      gameEnded: false
     });
     this.fetchGridSquares();
     this.fetchPlayers();
@@ -218,7 +220,8 @@ class App extends React.Component {
     let nextState = this.state.activePlayer === 1 ? 2 : 1;
     this.setState({
       activePlayer: nextState,
-      activeWeapon: {}
+      activeWeapon: {},
+      blastRadius: 0
     });
     this.fetchPlayers();
   };
@@ -230,13 +233,17 @@ class App extends React.Component {
     });
   };
 
-  // killCivilians = () => {
-  //   let killed =
-  //   let newKillCount =
-  //   this.setState({
-  //     civiliansKilled: newKillCount
-  //   })
-  // }
+  killCivilians = () => {
+    let killCount = this.state.civiliansKilled;
+
+    let newKills = this.state.targetedSquares.reduce((sum, square) => {
+      return sum + square.pop;
+    }, 0);
+
+    this.setState({
+      civiliansKilled: killCount + newKills
+    });
+  };
 
   render() {
     return (
@@ -262,6 +269,8 @@ class App extends React.Component {
                   handleLeave={this.handleLeave}
                   blastRadius={this.state.blastRadius}
                   targetedSquares={this.state.targetedSquares}
+                  killCivilians={this.killCivilians}
+                  gameEnded={this.state.gameEnded}
                   {...this.props}
                 />
               </div>

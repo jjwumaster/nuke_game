@@ -1,7 +1,6 @@
 import React from "react";
 import WeaponSelector from "./WeaponSelector";
 import CiviliansKilled from "./CiviliansKilled";
-import CurrentWeapon from "./CurrentWeapon";
 
 const ControlPanel = props => {
   const handleClick = () => {

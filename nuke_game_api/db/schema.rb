@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124155508) do
+ActiveRecord::Schema.define(version: 20180124163735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20180124155508) do
   create_table "grid_squares", force: :cascade do |t|
     t.integer "x_coord"
     t.integer "y_coord"
-    t.integer "pop"
+    t.float "pop"
     t.boolean "shot"
     t.boolean "land"
     t.string "country"
