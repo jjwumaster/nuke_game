@@ -10,28 +10,28 @@ const GridSquare = props => {
       zero: "#d2a679"
     },
     "South Korea": {
-      high: "#0099ff",
-      medium: "#33ccff",
-      low: "#66ccff",
-      zero: "#F0F8FF"
+      high: "#800000",
+      medium: "#CD0000",
+      low: "#FF0000",
+      zero: "#FF6A6A"
     },
     Russia: {
-      high: "red",
-      medium: "red",
-      low: "red",
-      zero: "red"
+      high: "silver",
+      medium: "silver",
+      low: "silver",
+      zero: "silver"
     },
     Japan: {
-      high: "#009933",
-      medium: "#33cc33",
-      low: "#66ff66",
-      zero: "#99ff99"
+      high: "silver",
+      medium: "silver",
+      low: "silver",
+      zero: "silver"
     },
     China: {
-      high: "#ff5050",
-      medium: "#ff6666",
-      low: "#ff9999",
-      zero: "#ffcccc"
+      high: "silver",
+      medium: "silver",
+      low: "silver",
+      zero: "silver"
     },
     Water: {
       high: "#99ccff",
@@ -43,13 +43,13 @@ const GridSquare = props => {
 
   const setColor = cell => {
     if (cell.targeted === true) {
-      return "purple";
+      return "yellow";
     } else if (cell.has_player === true && props.activePlayer === 1) {
       return "pink";
     } else if (!cell.land) {
       return "#99ccff";
     } else if (cell.shot) {
-      return "black";
+      return "#39ff14";
     } else {
       // return the color in accordance with the country
       return countryColors[cell.country][cell.density];
