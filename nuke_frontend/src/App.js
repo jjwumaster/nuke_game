@@ -13,8 +13,11 @@ class App extends React.Component {
       players: [],
       activePlayer: 1,
       startScreen: true,
+      civiliansKilled: 0,
       activeWeapon: {},
-      hasHidingSpot: false
+      blastRadius: 0,
+      mapWidth: 0,
+      mapLength: 0
     }
   }
 
@@ -37,7 +40,14 @@ class App extends React.Component {
 
   setMap = (gridsquares) => {
     // const side = Math.sqrt(gridsquares.length);
-    const length = 85
+    const width = 50
+    const length = gridsquares.length / 50
+
+    this.setState({
+      mapWidth: width,
+      mapLength: length
+    })
+
     const range = [...Array(length).keys()]
     const output = []
 
@@ -62,12 +72,108 @@ class App extends React.Component {
     this.setState({ gridsquares: output })
   }
 
-  updateShot = (gridsquare) => {
-    const rowIndex = gridsquare.y_coord - 1
-    const columnIndex = gridsquare.x_coord - 1
+  handleHover = (cell) => {
+    let blastRadius = this.state.blastRadius
+    let blastWidth = this.state.blastRadius * 2 + 1
+    let mapX = this.state.mapWidth - 1
+    let mapY = this.state.mapLength - 1
+    let column = cell.x_coord - 1
+    let row = cell.y_coord - 1
+    let localGridSquares = this.state.gridsquares
+
+    let xlowerBound = column - blastRadius
+    let ylowerBound = row - blastRadius
+    let xDimension = blastWidth
+    let yDimension = blastWidth
+
+    if (column > mapX - blastRadius) {
+      xlowerBound = column - blastRadius
+      xDimension = mapX - xlowerBound + 1
+    }
+
+    if (column < blastRadius) {
+      xlowerBound = 0
+      xDimension = blastWidth - column
+    }
+
+    if (row < blastRadius) {
+      ylowerBound = row - blastRadius
+      yDimension = mapY - ylowerBound + 1
+    }
+
+    if (row > mapY - blastRadius) {
+      ylowerBound = 0
+      yDimension = blastWidth - row
+    }
+
+    for (let y of this.range(ylowerBound, yDimension)) {
+      for (let x of this.range(xlowerBound, xDimension)) {
+        let yaway = Math.abs(row - y) // how many rows away i am from home row
+        let xaway = Math.abs(column - x) // how many columns i am from home column
+        if (xaway + yaway >= blastRadius + 1) {
+          localGridSquares[y][x].targeted = false
+        } else {
+          localGridSquares[y][x].targeted = true
+        }
+      }
+    }
+
+    this.setState({ gridsquares: localGridSquares })
+  }
+
+  handleLeave = (cell) => {
+    let blastRadius = this.state.blastRadius
+    let blastWidth = this.state.blastRadius * 2 + 1
+    let mapX = this.state.mapWidth - 1
+    let mapY = this.state.mapLength - 1
+    let column = cell.x_coord - 1
+    let row = cell.y_coord - 1
+    let localGridSquares = this.state.gridsquares
+
+    let xlowerBound = column - blastRadius
+    let ylowerBound = row - blastRadius
+    let xDimension = blastWidth
+    let yDimension = blastWidth
+
+    if (column > mapX - blastRadius) {
+      xlowerBound = column - blastRadius
+      xDimension = mapX - xlowerBound
+    }
+
+    if (column < blastRadius) {
+      xlowerBound = 0
+      xDimension = blastWidth - column
+    }
+
+    if (row < blastRadius) {
+      ylowerBound = row - blastRadius
+      yDimension = blastWidth - row
+    }
+
+    if (row > mapY - blastRadius) {
+      ylowerBound = 0
+      yDimension = blastWidth - row
+    }
+
+    for (let y of this.range(ylowerBound, yDimension)) {
+      for (let x of this.range(xlowerBound, xDimension)) {
+        localGridSquares[y][x].targeted = false
+      }
+    }
+
+    this.setState({ gridsquares: localGridSquares })
+  }
+
+  range = (length, lowerBound) => {
+    return Array.from(new Array(length), (x, i) => i + lowerBound)
+  }
+
+  updateShot = (cell) => {
+    const row = cell.y_coord - 1
+    const column = cell.x_coord - 1
 
     let localGridsquares = this.state.gridsquares
-    localGridsquares[rowIndex][columnIndex].shot = true
+    localGridsquares[row][column].shot = true
 
     this.setState({ gridsquares: localGridsquares })
   }
@@ -109,7 +215,10 @@ class App extends React.Component {
   }
 
   handleSelection = (weapon) => {
-    this.setState({ activeWeapon: weapon })
+    this.setState({
+      activeWeapon: weapon,
+      blastRadius: weapon.blast_radius
+    })
   }
 
   render() {
@@ -132,6 +241,8 @@ class App extends React.Component {
                   startGame={this.startGame}
                   nextTurn={this.nextTurn}
                   activeWeapon={this.state.activeWeapon}
+                  handleHover={this.handleHover}
+                  handleLeave={this.handleLeave}
                   {...this.props}
                 />
               </div>

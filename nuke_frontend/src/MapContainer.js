@@ -15,7 +15,7 @@ class MapContainer extends React.Component {
     let newShots = shots - 1
 
     if (cell.has_player === true && this.props.activePlayer === 2 && weaponId) {
-      alert("END GAME")
+      alert("GAME OVER! USA WINS! U-S-A! U-S-A! U-S-A!")
       this.endGame()
     } else if (
       cell.has_player === true &&
@@ -102,6 +102,8 @@ class MapContainer extends React.Component {
             handleClick={
               this.props.startScreen ? this.onClickStart : this.handleClick
             }
+            handleHover={this.props.handleHover}
+            handleLeave={this.props.handleLeave}
             activePlayer={this.props.activePlayer}
           />
         </tbody>

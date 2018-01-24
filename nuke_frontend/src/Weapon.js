@@ -1,6 +1,6 @@
-import React from "react"
+import React from "react";
 
-const Weapon = (props) => {
+const Weapon = props => {
   return (
     <div>
       {props.weapon.name}
@@ -9,7 +9,7 @@ const Weapon = (props) => {
         <li>Shots Remaining: {props.weapon.shots}</li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Weapon
+export default Weapon;
