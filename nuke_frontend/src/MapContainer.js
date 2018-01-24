@@ -14,37 +14,41 @@ class MapContainer extends React.Component {
     let shots = this.props.activeWeapon.shots
     let newShots = shots - 1
 
-    if (cell.has_player === true && this.props.activePlayer === 2) {
+    if (cell.has_player === true && this.props.activePlayer === 2 && weaponId) {
       alert("END GAME")
-
       this.endGame()
-    } else if (cell.has_player === true && this.props.activePlayer === 1) {
+    } else if (
+      cell.has_player === true &&
+      this.props.activePlayer === 1 &&
+      weaponId
+    ) {
       alert("You idiot!")
-
       this.endGame()
     } else if (cell.country === "Water") {
       alert("Can't bomb water!")
-    } else {
+    } else if (!weaponId) {
+      alert("Select your weapon.")
+    } else if (weaponId) {
       let activePlayerName =
         this.props.activePlayer === 1 ? "Donald J Trump" : "Kim Jong Un"
       alert(`Successful bombing run! ${activePlayerName}'s turn!`)
+
+      fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
+        method: "PATCH",
+        headers: HEADERS,
+        body: JSON.stringify({ shot: true })
+      })
+        .then((resp) => resp.json())
+        .then((gridsquare) => this.props.updateShot(gridsquare))
+
+      fetch(`http://localhost:3001/weapons/${weaponId}`, {
+        method: "PATCH",
+        headers: HEADERS,
+        body: JSON.stringify({ shots: newShots })
+      })
+
+      this.props.nextTurn()
     }
-
-    fetch(`http://localhost:3001/grid_squares/${gridsquareId}`, {
-      method: "PATCH",
-      headers: HEADERS,
-      body: JSON.stringify({ shot: true })
-    })
-      .then((resp) => resp.json())
-      .then((gridsquare) => this.props.updateShot(gridsquare))
-
-    fetch(`http://localhost:3001/weapons/${weaponId}`, {
-      method: "PATCH",
-      headers: HEADERS,
-      body: JSON.stringify({ shots: newShots })
-    })
-
-    this.props.nextTurn()
   }
 
   endGame = () => {

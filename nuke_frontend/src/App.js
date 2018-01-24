@@ -13,7 +13,8 @@ class App extends React.Component {
       players: [],
       activePlayer: 1,
       startScreen: true,
-      activeWeapon: {}
+      activeWeapon: {},
+      hasHidingSpot: false
     }
   }
 
