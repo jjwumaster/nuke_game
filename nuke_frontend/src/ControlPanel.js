@@ -20,7 +20,8 @@ const ControlPanel = (props) => {
       ) : (
         <div>
           <h1>Player {props.activePlayer} turn</h1>
-          <CiviliansKilled />
+          <CiviliansKilled civiliansKilled={props.civiliansKilled} />
+          <br />
           <WeaponSelector
             players={props.players}
             activePlayer={props.activePlayer}

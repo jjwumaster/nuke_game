@@ -47,6 +47,7 @@ class MapContainer extends React.Component {
         body: JSON.stringify({ shots: newShots })
       })
 
+      this.props.killCivilians()
       this.props.nextTurn()
     }
   }

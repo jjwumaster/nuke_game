@@ -1,7 +1,11 @@
-import React from "react";
+import React from "react"
 
-const CiviliansKilled = () => {
-  return <div>CIVILIANS KILLED: XXX</div>;
-};
+const CiviliansKilled = (props) => {
+  return (
+    <div>
+      <h3>CIVILIANS KILLED: {props.civiliansKilled}</h3>
+    </div>
+  )
+}
 
-export default CiviliansKilled;
+export default CiviliansKilled
