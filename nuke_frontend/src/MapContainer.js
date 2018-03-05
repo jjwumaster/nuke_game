@@ -20,7 +20,6 @@ class MapContainer extends React.Component {
     let newShots = shots - 1
 
     let targetedSquares = this.props.targetedSquares
-    let updateIds = []
     let finalAlertMessage
 
     for (let gridsquare of targetedSquares) {

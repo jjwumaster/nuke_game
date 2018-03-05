@@ -1,12 +1,12 @@
-import React from "react";
-import { Route, withRouter } from "react-router-dom";
-import MapContainer from "./MapContainer";
-import ControlPanel from "./ControlPanel";
-import "./style/App.css";
+import React from "react"
+import { Route, withRouter } from "react-router-dom"
+import MapContainer from "./MapContainer"
+import ControlPanel from "./ControlPanel"
+import "./style/App.css"
 
 class App extends React.Component {
   constructor() {
-    super();
+    super()
 
     this.state = {
       gridsquares: [],
@@ -20,107 +20,107 @@ class App extends React.Component {
       blastRadius: 0,
       mapWidth: 0,
       mapLength: 0
-    };
+    }
   }
 
   componentDidMount() {
-    this.fetchGridSquares();
-    this.fetchPlayers();
+    this.fetchGridSquares()
+    this.fetchPlayers()
   }
 
   fetchGridSquares() {
     fetch("http://localhost:3001/grid_squares")
-      .then(resp => resp.json())
-      .then(gridsquares => this.setMap(gridsquares));
+      .then((resp) => resp.json())
+      .then((gridsquares) => this.setMap(gridsquares))
   }
 
   fetchPlayers() {
     fetch("http://localhost:3001/players")
-      .then(resp => resp.json())
-      .then(players => this.setState({ players: players }));
+      .then((resp) => resp.json())
+      .then((players) => this.setState({ players: players }))
   }
 
-  setMap = gridsquares => {
+  setMap = (gridsquares) => {
     // const side = Math.sqrt(gridsquares.length);
-    const width = 50;
-    const length = gridsquares.length / 50;
+    const width = 50
+    const length = gridsquares.length / 50
 
     this.setState({
       mapWidth: width,
       mapLength: length
-    });
+    })
 
-    const range = [...Array(length).keys()];
-    const output = [];
+    const range = [...Array(length).keys()]
+    const output = []
 
     for (let y of range) {
-      output.push([]);
+      output.push([])
 
       // need to make rowSquares a hash...
 
       let rowSquares = gridsquares
-        .filter(gridsquare => {
-          return gridsquare["y_coord"] === y + 1;
+        .filter((gridsquare) => {
+          return gridsquare["y_coord"] === y + 1
         })
         .sort((a, b) => {
-          return a["x_coord"] - b["x_coord"];
-        });
+          return a["x_coord"] - b["x_coord"]
+        })
 
       for (let square in rowSquares) {
-        output[y].push(rowSquares[square]);
+        output[y].push(rowSquares[square])
       }
     }
 
-    this.setState({ gridsquares: output });
-  };
+    this.setState({ gridsquares: output })
+  }
 
-  handleHover = cell => {
-    let blastRadius = this.state.blastRadius;
-    let blastWidth = this.state.blastRadius * 2 + 1;
-    let mapX = this.state.mapWidth - 1;
-    let mapY = this.state.mapLength - 1;
-    let column = cell.x_coord - 1;
-    let row = cell.y_coord - 1;
-    let localGridSquares = this.state.gridsquares;
+  handleHover = (cell) => {
+    let blastRadius = this.state.blastRadius
+    let blastWidth = this.state.blastRadius * 2 + 1
+    let mapX = this.state.mapWidth - 1
+    let mapY = this.state.mapLength - 1
+    let column = cell.x_coord - 1
+    let row = cell.y_coord - 1
+    let localGridSquares = this.state.gridsquares
 
-    let xlowerBound = column - blastRadius;
-    let ylowerBound = row - blastRadius;
-    let xDimension = blastWidth;
-    let yDimension = blastWidth;
+    let xlowerBound = column - blastRadius
+    let ylowerBound = row - blastRadius
+    let xDimension = blastWidth
+    let yDimension = blastWidth
 
     if (column > mapX - blastRadius) {
-      xlowerBound = column - blastRadius;
-      xDimension = mapX - xlowerBound + 1;
+      xlowerBound = column - blastRadius
+      xDimension = mapX - xlowerBound + 1
     }
 
     if (column < blastRadius) {
-      xlowerBound = 0;
-      xDimension = blastWidth - column;
+      xlowerBound = 0
+      xDimension = blastWidth - column
     }
 
     if (row > mapY - blastRadius) {
-      ylowerBound = row - blastRadius;
-      yDimension = mapY - ylowerBound + 1;
+      ylowerBound = row - blastRadius
+      yDimension = mapY - ylowerBound + 1
     }
 
     if (row < blastRadius) {
-      ylowerBound = 0;
-      yDimension = blastWidth - row;
+      ylowerBound = 0
+      yDimension = blastWidth - row
     }
 
     // console.log("Y:", ylowerBound, yDimension, "X:", xlowerBound, xDimension);
 
-    let targetedSquares = [];
+    let targetedSquares = []
 
     for (let y of this.range(ylowerBound, yDimension)) {
       for (let x of this.range(xlowerBound, xDimension)) {
-        let yaway = Math.abs(row - y); // how many rows away i am from home row
-        let xaway = Math.abs(column - x); // how many columns i am from home column
+        let yaway = Math.abs(row - y) // how many rows away i am from home row
+        let xaway = Math.abs(column - x) // how many columns i am from home column
         if (xaway + yaway >= blastRadius + 1) {
-          localGridSquares[y][x].targeted = false;
+          localGridSquares[y][x].targeted = false
         } else {
-          localGridSquares[y][x].targeted = true;
-          targetedSquares.push(localGridSquares[y][x]);
+          localGridSquares[y][x].targeted = true
+          targetedSquares.push(localGridSquares[y][x])
         }
       }
     }
@@ -128,82 +128,82 @@ class App extends React.Component {
     this.setState({
       gridsquares: localGridSquares,
       targetedSquares: targetedSquares
-    });
-  };
+    })
+  }
 
-  handleLeave = cell => {
-    let blastRadius = this.state.blastRadius;
-    let blastWidth = this.state.blastRadius * 2 + 1;
-    let mapX = this.state.mapWidth - 1;
-    let mapY = this.state.mapLength - 1;
-    let column = cell.x_coord - 1;
-    let row = cell.y_coord - 1;
-    let localGridSquares = this.state.gridsquares;
+  handleLeave = (cell) => {
+    let blastRadius = this.state.blastRadius
+    let blastWidth = this.state.blastRadius * 2 + 1
+    let mapX = this.state.mapWidth - 1
+    let mapY = this.state.mapLength - 1
+    let column = cell.x_coord - 1
+    let row = cell.y_coord - 1
+    let localGridSquares = this.state.gridsquares
 
-    let xlowerBound = column - blastRadius;
-    let ylowerBound = row - blastRadius;
-    let xDimension = blastWidth;
-    let yDimension = blastWidth;
+    let xlowerBound = column - blastRadius
+    let ylowerBound = row - blastRadius
+    let xDimension = blastWidth
+    let yDimension = blastWidth
 
     if (column > mapX - blastRadius) {
-      xlowerBound = column - blastRadius;
-      xDimension = mapX - xlowerBound + 1;
+      xlowerBound = column - blastRadius
+      xDimension = mapX - xlowerBound + 1
     }
 
     if (column < blastRadius) {
-      xlowerBound = 0;
-      xDimension = blastWidth - column;
+      xlowerBound = 0
+      xDimension = blastWidth - column
     }
 
     if (row > mapY - blastRadius) {
-      ylowerBound = row - blastRadius;
-      yDimension = mapY - ylowerBound + 1;
+      ylowerBound = row - blastRadius
+      yDimension = mapY - ylowerBound + 1
     }
 
     if (row < blastRadius) {
-      ylowerBound = 0;
-      yDimension = blastWidth - row;
+      ylowerBound = 0
+      yDimension = blastWidth - row
     }
 
     for (let y of this.range(ylowerBound, yDimension)) {
       for (let x of this.range(xlowerBound, xDimension)) {
-        localGridSquares[y][x].targeted = false;
+        localGridSquares[y][x].targeted = false
       }
     }
 
-    this.setState({ gridsquares: localGridSquares, targetedSquares: [] });
-  };
+    this.setState({ gridsquares: localGridSquares, targetedSquares: [] })
+  }
 
   range = (length, lowerBound) => {
-    return Array.from(new Array(length), (x, i) => i + lowerBound);
-  };
+    return Array.from(new Array(length), (x, i) => i + lowerBound)
+  }
 
-  updateShot = cell => {
-    const row = cell.y_coord - 1;
-    const column = cell.x_coord - 1;
+  updateShot = (cell) => {
+    const row = cell.y_coord - 1
+    const column = cell.x_coord - 1
 
-    let localGridsquares = this.state.gridsquares;
-    localGridsquares[row][column].shot = true;
+    let localGridsquares = this.state.gridsquares
+    localGridsquares[row][column].shot = true
 
-    this.setState({ gridsquares: localGridsquares });
-  };
+    this.setState({ gridsquares: localGridsquares })
+  }
 
-  updateHidingSpot = gridsquare => {
-    const rowIndex = gridsquare.y_coord - 1;
-    const columnIndex = gridsquare.x_coord - 1;
+  updateHidingSpot = (gridsquare) => {
+    const rowIndex = gridsquare.y_coord - 1
+    const columnIndex = gridsquare.x_coord - 1
 
-    let localGridsquares = this.state.gridsquares;
-    localGridsquares[rowIndex][columnIndex].has_player = true;
+    let localGridsquares = this.state.gridsquares
+    localGridsquares[rowIndex][columnIndex].has_player = true
 
-    this.setState({ gridsquares: localGridsquares });
-  };
+    this.setState({ gridsquares: localGridsquares })
+  }
 
   startGame = () => {
     this.setState({
       startScreen: false
-    });
-    this.nextTurn();
-  };
+    })
+    this.nextTurn()
+  }
 
   resetGame = () => {
     this.setState({
@@ -211,41 +211,42 @@ class App extends React.Component {
       activePlayer: 1,
       activeWeapon: {},
       gameEnded: false
-    });
-    this.fetchGridSquares();
-    this.fetchPlayers();
-  };
+    })
+    this.fetchGridSquares()
+    this.fetchPlayers()
+  }
 
   nextTurn = () => {
-    let nextState = this.state.activePlayer === 1 ? 2 : 1;
+    let nextState = this.state.activePlayer === 1 ? 2 : 1
     this.setState({
       activePlayer: nextState,
       activeWeapon: {},
       blastRadius: 0
-    });
-    this.fetchPlayers();
-  };
+    })
+    this.fetchPlayers()
+  }
 
-  handleSelection = weapon => {
+  handleSelection = (weapon) => {
     this.setState({
       activeWeapon: weapon,
       blastRadius: weapon.blast_radius
-    });
-  };
+    })
+  }
 
   killCivilians = () => {
-    let killCount = this.state.civiliansKilled;
+    let killCount = this.state.civiliansKilled
 
     let newKills = this.state.targetedSquares.reduce((sum, square) => {
-      return sum + square.pop;
-    }, 0);
+      return sum + square.pop
+    }, 0)
 
     this.setState({
       civiliansKilled: killCount + newKills
-    });
-  };
+    })
+  }
 
   render() {
+    debugger
     return (
       <div>
         <Route
@@ -298,8 +299,8 @@ class App extends React.Component {
           )}
         />
       </div>
-    );
+    )
   }
 }
 
-export default withRouter(App);
+export default withRouter(App)
